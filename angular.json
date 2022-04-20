@@ -29,7 +29,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+          
+            ]
       
           },
           "configurations": {
@@ -97,7 +99,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+    
+            ]
           }
         }
       }

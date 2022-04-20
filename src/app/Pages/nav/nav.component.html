@@ -1,95 +1,52 @@
 <nav>
-    <div class="container_icono"><label class="label_options"><img class="icono" src="./assets/logo hd.png"></label></div>
-    <div class="option"><label class="label_options" (click)="ButtonInicio()">Inicio</label></div>
+    <div class="container_icono"><label class="label_options"><img class="icono" src="./assets/logo hd.png"></label>
+    </div>
+    <div class="option"><label class="label_options" (click)="ButtonInit()">Inicio</label></div>
     <div class="option"><label class="label_options" (click)="ButtonAdd()">Añadir conexion</label></div>
     <div class="option"><label class="label_options" (click)="ButtonTest()">Probar</label></div>
     <div class="option"><label class="label_options" (click)="ButtonGraph()">Graficas</label></div>
     <div class="contact"><label class="label_options" (click)="ButtonContact()">Contactanos</label></div>
-    
-    
+
+
 
 </nav>
 
-<div class="container_main">
-    <div *ngIf="isInicio">
-        <div class="card">
-            <!-- <canvas baseChart 
-            [datasets]="lineChartData" 
-            [options]="lineChartOptions"
-            [labels]="barChartLabels"
-            [legend]="lineChartLegend" 
-            [plugins]="lineChartPlugins"
-            [type]="'polarArea'">
-        </canvas> -->
-        <!--  -->
-        <canvas baseChart
-        [datasets]="lineChartData" 
-        [options]="lineChartOptions"
-        [labels]="barChartLabels"
-        [legend]="lineChartLegend" 
-        [plugins]="lineChartPlugins"
-        [type]="'pie'">
-       </canvas> 
-
-       
+<div class="container_main" >
+    <div *ngIf="isInit" class="container_inicio"  cdkDropList   (cdkDropListDropped)="drop($event)">
+        <div class="canvas_simuled" >
     
-<!--        
-       <canvas baseChart 
-       [datasets]="lineChartData" 
-       [options]="lineChartOptions"
-       [labels]="barChartLabels"
-       [legend]="lineChartLegend" 
-       [plugins]="lineChartPlugins"
-       [type]="'bar'">
-       </canvas>
-       <!--  -->
-       <!-- <canvas baseChart 
-       [datasets]="lineChartData" 
-       [options]="lineChartOptions"
-       [labels]="barChartLabels"
-       [legend]="lineChartLegend" 
-       [plugins]="lineChartPlugins"
-       [type]="'bubble'">
-       </canvas> -->
-       <!--  -->
-       <!-- <canvas baseChart 
-       [datasets]="lineChartData" 
-       [options]="lineChartOptions"
-       [labels]="barChartLabels"
-       [legend]="lineChartLegend" 
-       [plugins]="lineChartPlugins"
-       [type]="'radar'">
-       </canvas> -->
-        <!--  -->
-        <!-- <canvas baseChart 
-        [datasets]="lineChartData" 
-        [options]="lineChartOptions"
-        [labels]="barChartLabels"
-        [legend]="lineChartLegend" 
-        [plugins]="lineChartPlugins"
-        [type]="'doughnut'">
-        </canvas>  -->
-        <!--  -->
-        <!-- <canvas baseChart 
-        [datasets]="lineChartData" 
-        [options]="lineChartOptions"
-        [labels]="barChartLabels"
-        [legend]="lineChartLegend" 
-        [plugins]="lineChartPlugins"
-        [type]="'pie'">
-        </canvas>  -->
-           <!--  -->
-           <!-- <canvas baseChart 
-           [datasets]="lineChartData" 
-           [options]="lineChartOptions"
-           [labels]="barChartLabels"
-           [legend]="lineChartLegend" 
-           [plugins]="lineChartPlugins"
-           [type]="'scatter'">
-           </canvas>  -->
+            <app-grafica  *ngFor="let id of backgroundColors let i = index"
+            [Id]="ids[i]"
+            [NombreSensor]="nameSensors[i]"
+            [backgroundColor]="backgroundColors[i]" 
+            [borderColor]="borderColor[i]" 
+            [typeGraphic]="typeGraphic[i]" 
+            [Style]="'background-color: rgb(33, 32, 31  );'" >
+            </app-grafica>
+        </div>
             
-           </div>
+          
+       
+           
+       
+            <!-- <app-grafica 
+            [Id]="1"
+            [NombreSensor]="'Sensor2'"
+            [backgroundColor]="''" 
+            [borderColor]="''" 
+            [typeGraphic]="'bar'">
+            </app-grafica>
+            <app-grafica 
+            [Id]="2"
+            [NombreSensor]="'Sensor2'"
+            [backgroundColor]="''" 
+            [borderColor]="''" 
+            [typeGraphic]="'pie'">
+            </app-grafica>                 -->
+
+<div class="margin"></div>
     </div>
+       
     <div *ngIf="isAdd">
         add
     </div>
@@ -102,6 +59,6 @@
     <div *ngIf="isContact">
         Contactanos
     </div>
-    
-        
+
+
 </div>

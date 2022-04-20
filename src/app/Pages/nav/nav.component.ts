@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import * as pluginDataLabels from 'chartjs-plugin-datalabels';
-
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop'
 
 
 @Component({
@@ -8,120 +7,84 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit, OnDestroy {
-
-  //public dataInformation: number[]= [85, 72, 78, 75, 77, 75];
-  //public dataInformation1: number[]= [45, 102, 78, 35, 77, 70];
-  public dataInformation: number[]= [85, 15];
-  lineChartData  = [
-    { data: this.dataInformation, label: 'Valores del sensor', backgroundColor: "rgb(24,27,31)", borderColor: "rgb(115,191,105)", 
-    pointBorderColor: "rgb(24,27,31)", hoverBorderColor:"rgb(182,209,6)", pointBackgroundColor: "rgb(24,27,31)", borderWidth: 5},  
-  ];
- // { data: this.dataInformation1, label: 'Valores del sensor 2' },
-
-  lineChartOptions = {
-    responsive: true,
-  };
-  barChartLabels: string[] = ['uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis'];
- 
-  lineChartLegend = true;
-  lineChartPlugins = [
-  ];
-  lineChartType = 'bar';
-  //public chartColors:Color[] = [];
-  public chartColors:Array<any> =[
-      'rgba(225,10,24,0.2)',
-      'rgba(11,255,20,1)',
-      'rgba(111,200,200,1)',
-      '#fff',
-      '#fff',
-      'rgba(200,100,10,0.8)'
-  ];
-  /************************** */
-  public graph = {
-    data: [
-        { x: [1, 2, 3], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: {color: 'red'} },
-        { x: [1, 2, 3], y: [2, 5, 3], type: 'bar' },
-    ],
-    layout: {width: 320, height: 240, title: 'A Fancy Plot'}
-};
-
-
-  // chartData = [
-  //   {
-  //     data: [330],
-  //     label: 'Account A'
-  //   },
-  //   {
-  //     data: [120],
-  //     label: 'Account B'
-  //   },
-  //   {
-  //     data: [45],
-  //     label: 'Account C'
-  //   }
-  // ];
-
-  public isInicio = false;
+export class NavComponent implements OnInit {
+  public isInit = false;
   public isAdd = false;
   public isTest = false;
   public isGraph = false;
   public isContact = false;
-
   public intervalUpdate: any;
+  public ids : number[];
+  public nameSensors !: string[];
+  public backgroundColors !: string[];
+  public borderColor !: string[];
+  public typeGraphic !: string[];
+  
 
-  /****************** */
-  public type:string = "line";
+  constructor() {
+    this.ids = [0,1,2];
+    this.nameSensors = ["Sensor1", "Sensor2","Sensor2"];
+    this.backgroundColors = ["rgb(10, 83, 171)","rgb(22, 131, 11)","rgb(22, 50, 11)"];
+    this.borderColor = ["rgb(34, 48, 66)","rgb(23, 155, 31)","rgb(12, 55, 233)"];
+    this.typeGraphic = [ 'line', 'bar','pie'];
 
-  /****************** */
+    switch (localStorage.getItem("position_nav")) {
+      case "Inicio": {
+        this.ButtonInit();
+        break;
+      }
+      case "Add": {
+        this.ButtonAdd();
+        break;
+      }
+      case "Test": {
+        this.ButtonTest();
+        break;
+      }
+      case "Graph": {
+        this.ButtonGraph();
+        break;
+      }
+      case "Contact": {
+        this.ButtonContact();
+        break;
+      }
+      default: {
+        this.ButtonInit();
+        break;
+      }
 
-  constructor() { }
-  ngOnDestroy(): void {
-    clearInterval(this.intervalUpdate);
+   
+    }
   }
- 
-  //  showData(): void {
-  //   console.log(this.chart.data.datasets[0]);
-  //   this.chart.update();
-  //   this.chart.render();
-  //   /*this.getSensoresData.getData().subscribe(response => {
-  //       //console.log(response);
-        
-    
-  //       //let chartTime: any = new Date();
-  //      // chartTime = chartTime.getHours() + ':' + ((chartTime.getMinutes() < 10) ? '0' + chartTime.getMinutes() : chartTime.getMinutes()) + ':' + ((chartTime.getSeconds() < 10) ? '0' + chartTime.getSeconds() : chartTime.getSeconds());
-  //       //this.chart.data.labels.push(chartTime);
-  //    //   this.chart.data.datasets[0].data.push(response);
-  //    //   this.chart.update();
-  //      /* if(this.chart.data.labels.length > 15) {
-  //         this.chart.data.labels.shift();
-  //         this.chart.data.datasets[0].data.shift();
-  //   }
-  //   }, error => {
-  //    console.error("ERROR: Unexpected response");
-  //   });*/
-  // }
-     
+
   ngOnInit(): void {
- 
+
   }
 
-  ButtonInicio() {
-    this.isInicio = true;
+
+
+  ButtonInit() {
+    localStorage.setItem("position_nav", "Inicio");
+
+    this.isInit = true;
     this.isAdd = false;
     this.isTest = false;
     this.isGraph = false;
     this.isContact = false;
   }
+
   ButtonAdd() {
-    this.isInicio = false;
+    localStorage.setItem("position_nav", "Add");
+    this.isInit = false;
     this.isAdd = true;
     this.isTest = false;
     this.isGraph = false;
     this.isContact = false;
   }
   ButtonTest() {
-    this.isInicio = false;
+    localStorage.setItem("position_nav", "Test");
+    this.isInit = false;
     this.isAdd = false;
     this.isTest = true;
     this.isGraph = false;
@@ -129,18 +92,32 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ButtonGraph() {
-    this.isInicio = false;
+    localStorage.setItem("position_nav", "Graph");
+    this.isInit = false;
     this.isAdd = false;
     this.isTest = false;
     this.isGraph = true;
     this.isContact = false;
   }
-  ButtonContact(){
-    this.isInicio = false;
+  ButtonContact() {
+    localStorage.setItem("position_nav", "Contact");
+    this.isInit = false;
     this.isAdd = false;
     this.isTest = false;
     this.isGraph = false;
     this.isContact = true;
   }
 
+
+
+  drop(event: CdkDragDrop<string[]>) {
+  //  moveItemInArray(this.backgroundColors, event.previousIndex, event.currentIndex); 
+    
+     moveItemInArray(this.ids, event.previousIndex, event.currentIndex);
+     moveItemInArray(this.nameSensors, event.previousIndex, event.currentIndex);
+     moveItemInArray(this.typeGraphic, event.previousIndex, event.currentIndex);
+     moveItemInArray(this.backgroundColors, event.previousIndex, event.currentIndex);
+     moveItemInArray(this.borderColor, event.previousIndex, event.currentIndex);
+  }
 }
+

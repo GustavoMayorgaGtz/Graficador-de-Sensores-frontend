@@ -1,0 +1,135 @@
+.container_grafica {
+    position: relative;
+    border-radius: 10px;
+    display: flex;
+    overflow: visible;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(61, 58, 58, 0);
+    margin:10px;
+    
+}
+
+.container_graph {
+    background-color: rgb(63, 63, 63, 0.5);
+    display: flex;
+    border-radius: 20px 0px 0px 20px;
+    flex-direction: row;
+}
+
+.Canvas {
+    border-radius: 20px 0px 0px 20px;
+    border: 0px solid ;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.container_menu {
+    width: 50px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
+}
+
+.btn_resize_horizontal {
+    position: absolute;
+    right: 0px;
+    cursor: nw-resize;
+    bottom: 0px;
+    z-index: 100;
+    width: 50px;
+    background-color: #dcdcdc00;
+    height: 50px;
+    max-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+.btn_move_graphic{
+    position: absolute;
+    right: 0px;
+    cursor: all-scroll;
+    top: 0px;
+    z-index: 100;
+    width: 50px;
+    background-color: #dcdcdc00;
+    height: 50px;
+    max-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.img_move{
+    cursor: all-scroll;
+    animation: 3s wuuEffect infinite;
+    z-index: 100;
+    width: 40px;
+    height: 40px;
+    transform: rotate(90deg);
+    transition: all 1s;
+    filter: invert(50%);
+}
+.transparent2:hover .img_move{
+    height: 100%;
+    filter: invert(100%);
+}
+
+
+@keyframes wuuEffect
+{
+  0%{transform: scale(1);}
+  50%{transform: scale(.9);}
+  100%{transform: scale(1);}
+}
+
+.img_resize_width {
+    width: 100%;
+    height: 70px;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-select: none;
+    -moz-user-select: -moz-none;
+    pointer-events: none;
+
+}
+
+.img_resize_height {
+    cursor: s-resize;
+    width: 40px;
+    height: 40px;
+    filter: invert(50%);
+    position: absolute;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-select: none;
+    -moz-user-select: -moz-none;
+    pointer-events: none;
+}
+
+.transparent {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+}
+.transparent:hover .img_resize_height{
+    filter:invert(100%);
+}
+
+/* .Datos {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
+} */

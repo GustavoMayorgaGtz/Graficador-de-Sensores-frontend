@@ -7,10 +7,9 @@ import { NavComponent } from './Pages/nav/nav.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgChartsModule } from 'ng2-charts';
 import { ColorPickerModule } from 'ngx-color-picker';
-
-
-;
-
+import { CommonModule } from '@angular/common';
+import { ComponentsModuleModule } from './Components/components-module.module';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -18,11 +17,14 @@ import { ColorPickerModule } from 'ngx-color-picker';
     NavComponent
   ],
   imports: [
+    ComponentsModuleModule,
     HttpClientModule,
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     NgChartsModule,
-    ColorPickerModule
+    ColorPickerModule,
+    DragDropModule
   ],
   providers: [CookieService, Document],
   bootstrap: [AppComponent]
