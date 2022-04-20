@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop'
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 
 
 @Component({
@@ -14,19 +14,74 @@ export class NavComponent implements OnInit {
   public isGraph = false;
   public isContact = false;
   public intervalUpdate: any;
-  public ids : number[];
+  /*********Arreglos que se pasan como parametros  **********/
+  public ids: number[];
   public nameSensors !: string[];
   public backgroundColors !: string[];
   public borderColor !: string[];
   public typeGraphic !: string[];
-  
+  public pointBackgroundColor !: string[];
+  public hoverBorderColor !: string[];
+  public pointBorderColor !: string[];
+  public SizePoint !: number[];
+
+
 
   constructor() {
-    this.ids = [0,1,2];
-    this.nameSensors = ["Sensor1", "Sensor2","Sensor2"];
-    this.backgroundColors = ["rgb(10, 83, 171)","rgb(22, 131, 11)","rgb(22, 50, 11)"];
-    this.borderColor = ["rgb(34, 48, 66)","rgb(23, 155, 31)","rgb(12, 55, 233)"];
-    this.typeGraphic = [ 'line', 'bar','pie'];
+    this.ids = [
+      0,
+      1,
+      2
+    ];
+
+    this.nameSensors = [
+      "Sensor1",
+      "Sensor2",
+      "Sensor2"
+    ];
+
+    this.backgroundColors = [
+      "rgba(32, 168, 16, 0.2)",
+      "rgba(216, 112, 8, 0.5)",
+      ""
+    ];
+
+    this.borderColor = [
+      "rgb(32, 168, 16)",
+      "rgba(176, 93, 10, 0.5)",
+      ""
+    ];
+
+
+    this.typeGraphic = [
+      'line',
+      'bar',
+      'bubble'
+    ];
+
+    this.pointBackgroundColor = [
+      "rgb(32, 168, 16)",
+      "pink",
+      ""
+    ];
+
+    this.hoverBorderColor = [
+      "white",
+      "green",
+      "",
+    ];
+
+    this.pointBorderColor = [
+      "white",
+      "purple",
+      ""
+    ]
+
+    this.SizePoint = [
+      2, 
+      1, 
+      2
+    ]
 
     switch (localStorage.getItem("position_nav")) {
       case "Inicio": {
@@ -54,7 +109,7 @@ export class NavComponent implements OnInit {
         break;
       }
 
-   
+
     }
   }
 
@@ -111,13 +166,15 @@ export class NavComponent implements OnInit {
 
 
   drop(event: CdkDragDrop<string[]>) {
-  //  moveItemInArray(this.backgroundColors, event.previousIndex, event.currentIndex); 
-    
-     moveItemInArray(this.ids, event.previousIndex, event.currentIndex);
-     moveItemInArray(this.nameSensors, event.previousIndex, event.currentIndex);
-     moveItemInArray(this.typeGraphic, event.previousIndex, event.currentIndex);
-     moveItemInArray(this.backgroundColors, event.previousIndex, event.currentIndex);
-     moveItemInArray(this.borderColor, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.ids, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.nameSensors, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.typeGraphic, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.backgroundColors, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.borderColor, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.pointBackgroundColor, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.hoverBorderColor, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.pointBorderColor, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.SizePoint, event.previousIndex, event.currentIndex);
   }
 }
 

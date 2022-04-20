@@ -25,6 +25,7 @@ export class GraficaComponent implements OnInit, OnDestroy {
     borderWidth: 2
   }];
   lineChartOptions = {
+    fill:'origin',
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -78,6 +79,7 @@ export class GraficaComponent implements OnInit, OnDestroy {
   @Input() typeGraphic !: any;
   @Input() Style: any = "font-size: 12px;";
   @Input() NombreSensor !: string;
+  @Input() SizePoint : number = 1;
 
 
   public elementos !: NodeListOf<HTMLInputElement>;
@@ -92,23 +94,21 @@ export class GraficaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setPositionInit();
-  //  this.changePositionGraphic();
     this.setPosicionLienzo();
     this.setPosicionLienzoVertical();
     this.getDataSensor = this.sensorInformation.getDataSensor({ "name": this.NombreSensor }).subscribe((getData) => {
       this.dataSensor = getData.data.map(Number);
       this.Nombre = getData.nombre;
-      //console.log(this.dataSensor);
       if (this.dataSensor) {
         this.lineChartData = [
           {
             data: this.dataSensor, label: getData.nombre,
             backgroundColor: this.backgroundColor, // background donde se muestran las opciones o los valores "rgb(180, 206, 237)"
             borderColor: this.borderColor, //Color de la linea conectora "rgb(10, 83, 171)"
-            pointBorderColor: "rgb(34, 48, 66  )", //color del borde de los puntos
-            hoverBorderColor: "rgb(180, 206, 237)", //Es el fondo de los datos cuando haces hover sobre un nodo
-            pointBackgroundColor: "rgb(180, 206, 237)", //Background del punto  
-            borderWidth: 4
+            pointBorderColor: this.pointBackgroundColor, //color del borde de los puntos
+            hoverBorderColor: this.hoverBorderColor, //Es el fondo de los datos cuando haces hover sobre un nodo
+            pointBackgroundColor: this.pointBackgroundColor, //Background del punto  
+            borderWidth: this.SizePoint            
           },
         ];
         this.barChartLabels = this.dataSensor.map(String);
@@ -143,7 +143,6 @@ export class GraficaComponent implements OnInit, OnDestroy {
           this.widthLienzo = 350;
           this.isResizeWidth = false;
         } else {
-          // console.log("X: " + event.clientX);
           if (this.CoordX == 2) {
             this.widthLienzo = ((event.clientX - this.CoordX) + 100);
           } else {

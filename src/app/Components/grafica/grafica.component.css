@@ -1,6 +1,6 @@
 .container_grafica {
     position: relative;
-    border-radius: 10px;
+    border-radius: 20px;
     display: flex;
     overflow: visible;
     flex-wrap: nowrap;
@@ -14,12 +14,12 @@
 .container_graph {
     background-color: rgb(63, 63, 63, 0.5);
     display: flex;
-    border-radius: 20px 0px 0px 20px;
+    border-radius: 20px 20px 20px 20px;
     flex-direction: row;
 }
 
 .Canvas {
-    border-radius: 20px 0px 0px 20px;
+    border-radius: 20px 20px 20px 20px;
     border: 0px solid ;
     position: relative;
     width: 100%;

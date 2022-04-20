@@ -6,47 +6,19 @@
     <div class="option"><label class="label_options" (click)="ButtonTest()">Probar</label></div>
     <div class="option"><label class="label_options" (click)="ButtonGraph()">Graficas</label></div>
     <div class="contact"><label class="label_options" (click)="ButtonContact()">Contactanos</label></div>
-
-
-
 </nav>
 
-<div class="container_main" >
-    <div *ngIf="isInit" class="container_inicio"  cdkDropList   (cdkDropListDropped)="drop($event)">
-        <div class="canvas_simuled" >
-    
-            <app-grafica  *ngFor="let id of backgroundColors let i = index"
-            [Id]="ids[i]"
-            [NombreSensor]="nameSensors[i]"
-            [backgroundColor]="backgroundColors[i]" 
-            [borderColor]="borderColor[i]" 
-            [typeGraphic]="typeGraphic[i]" 
-            [Style]="'background-color: rgb(33, 32, 31  );'" >
-            </app-grafica>
+<div class="container_main">
+    <div *ngIf="isInit" class="container_inicio" cdkDropList (cdkDropListDropped)="drop($event)">
+        <div class="canvas_simuled">
+            <app-grafica *ngFor="let id of backgroundColors let i = index" [Id]="ids[i]" [NombreSensor]="nameSensors[i]"
+                [backgroundColor]="backgroundColors[i]" [borderColor]="borderColor[i]" [typeGraphic]="typeGraphic[i]"
+                [pointBackgroundColor]="pointBackgroundColor[i]" [hoverBorderColor]="hoverBorderColor[i]"
+                [pointBorderColor]="pointBorderColor[i]" [Style]="'background-color: rgb(33, 32, 31);'" [SizePoint]="SizePoint[i]">            </app-grafica>
         </div>
-            
-          
-       
-           
-       
-            <!-- <app-grafica 
-            [Id]="1"
-            [NombreSensor]="'Sensor2'"
-            [backgroundColor]="''" 
-            [borderColor]="''" 
-            [typeGraphic]="'bar'">
-            </app-grafica>
-            <app-grafica 
-            [Id]="2"
-            [NombreSensor]="'Sensor2'"
-            [backgroundColor]="''" 
-            [borderColor]="''" 
-            [typeGraphic]="'pie'">
-            </app-grafica>                 -->
-
-<div class="margin"></div>
+        <div class="margin"></div>
     </div>
-       
+
     <div *ngIf="isAdd">
         add
     </div>
@@ -59,6 +31,4 @@
     <div *ngIf="isContact">
         Contactanos
     </div>
-
-
 </div>
