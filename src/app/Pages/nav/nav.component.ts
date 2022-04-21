@@ -43,13 +43,13 @@ export class NavComponent implements OnInit {
     this.backgroundColors = [
       "rgba(32, 168, 16, 0.2)",
       "rgba(216, 112, 8, 0.5)",
-      ""
+      "['red','green','blue','purple','yellow','brown','magenta','cyan']"
     ];
 
     this.borderColor = [
       "rgb(32, 168, 16)",
       "rgba(176, 93, 10, 0.5)",
-      ""
+      "blue"
     ];
 
 
@@ -62,7 +62,7 @@ export class NavComponent implements OnInit {
     this.pointBackgroundColor = [
       "rgb(32, 168, 16)",
       "pink",
-      ""
+      "['red','green','blue','purple','yellow','brown','magenta','cyan']"
     ];
 
     this.hoverBorderColor = [
@@ -114,6 +114,7 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   
 
   }
 

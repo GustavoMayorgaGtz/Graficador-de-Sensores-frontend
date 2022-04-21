@@ -1,15 +1,17 @@
-<div  class="container_grafica" #ContainerGrafica  #Grafica  [style.width.px]="widthLienzo" [style.height.px]="heightLienzo" [style]="Style" cdkDrag>
+<div  class="container_grafica" #ContainerGrafica  #Grafica  [style.width.px]="widthLienzo " [style.height.px]="heightLienzo" [style]="Style" cdkDrag>
 <!--  -->
-<div class="placeHolder" [style.width.px]="widthLienzo" [style.height.px]="heightLienzo" (mousemove)="getCoordenada(Grafica)"  *cdkDragPlaceholder>
-
    
-</div>
     <div class="container_graph" [style.width.px]="widthLienzo" [style.height.px]="heightLienzo" (mousemove)="getCoordenada(Grafica)"  >
-        <canvas baseChart class="Canvas"  (mousemove)="getCoordenada(Grafica)"
-             [datasets]="lineChartData"
+        <canvas baseChart class="Canvas"  (mousemove)="getCoordenada(Grafica)" *ngIf="typeGraphic === 'bubble'"
+            [data]="bubbleChartData"
             [options]="lineChartOptions" [labels]="barChartLabels" [legend]="lineChartLegend"
             [plugins]="lineChartPlugins" [type]="typeGraphic" draggable="true" [style]="Style"  > 
         </canvas>
+        <canvas baseChart class="Canvas"  (mousemove)="getCoordenada(Grafica)" *ngIf="typeGraphic !== 'bubble'"
+         [datasets]="lineChartData"
+        [options]="lineChartOptions" [labels]="barChartLabels" [legend]="lineChartLegend"
+        [plugins]="lineChartPlugins" [type]="typeGraphic" draggable="true" [style]="Style"  > 
+    </canvas>
 
     </div>
   
