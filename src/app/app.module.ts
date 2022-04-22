@@ -10,6 +10,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { CommonModule } from '@angular/common';
 import { ComponentsModuleModule } from './Components/components-module.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { NgApexchartsModule} from 'ng-apexcharts';
+
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
   imports: [
     ComponentsModuleModule,
     HttpClientModule,
+    BrowserModule,
+    NgApexchartsModule,
     BrowserModule,
     CommonModule,
     AppRoutingModule,

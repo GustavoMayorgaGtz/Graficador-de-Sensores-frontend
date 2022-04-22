@@ -19,8 +19,15 @@
         <div class="margin"></div>
     </div>
 
-    <div *ngIf="isAdd">
-        add
+    <div *ngIf="isAdd" cdkDropList (cdkDropListDropped)="drop($event)">
+   
+        <div class="canvas_simuled" >
+            <app-grafica-apex *ngFor="let id of backgroundColors let i = index" [Id]="ids[i]" [NombreSensor]="nameSensors[i]"
+                [backgroundColor]="backgroundColors[i]" [borderColor]="borderColor[i]" [typeGraphic]="typeGraphic[i]"
+                [pointBackgroundColor]="pointBackgroundColor[i]" [hoverBorderColor]="hoverBorderColor[i]"
+                [pointBorderColor]="pointBorderColor[i]" [Style]="'background-color: rgb(33, 32, 31);'" [SizePoint]="SizePoint[i]">            </app-grafica-apex>
+        </div>
+        <div class="margin"></div>
     </div>
     <div *ngIf="isTest">
         probar

@@ -35,8 +35,8 @@ export class NavComponent implements OnInit {
     ];
 
     this.nameSensors = [
-      "Sensor1",
       "Sensor2",
+      "Sensor3",
       "Sensor2"
     ];
 
@@ -56,7 +56,7 @@ export class NavComponent implements OnInit {
     this.typeGraphic = [
       'line',
       'bar',
-      'bubble'
+      'area'
     ];
 
     this.pointBackgroundColor = [

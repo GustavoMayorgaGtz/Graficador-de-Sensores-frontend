@@ -22,7 +22,7 @@ export class GraficaComponent implements OnInit, OnDestroy {
     pointBorderColor: "rgb(255,255,255)",
     hoverBorderColor: "rgb(255,255,255)",
     pointBackgroundColor: "rgb(255,255,255)",
-    borderWidth: 2
+    borderWidth: 2,
   }];
   public bubbleChartData: ChartData<'bubble'> = {
     labels: [],
@@ -69,6 +69,12 @@ export class GraficaComponent implements OnInit, OnDestroy {
     responsive: true,
     backgroundColor: "['red','green','blue','purple','yellow','brown','magenta','cyan']",
     maintainAspectRatio: false,
+    animation: false,
+    options: {
+      animation: {
+        duration: 0
+      }
+    },
     scales: {
       y: {
         stacked: true,
@@ -89,7 +95,6 @@ export class GraficaComponent implements OnInit, OnDestroy {
   lineChartPlugins = [];
   lineChartType = 'bar';
 
-
   /****************** */
   public type: string = "line";
   /****************** */
@@ -109,10 +114,7 @@ export class GraficaComponent implements OnInit, OnDestroy {
   public CoordY !: number;
   public CoordX !: number;
   public browserWidth !: number;
-  /* public isChangePosition: boolean = false;
-   public isPositionX: boolean = false;
-   public isPositionY: boolean = false;
-   public SizeStyle !: any;*/
+
   /********Definir Colores y Tipo de Grafica *******/
   @Input() Id  !: number;
   @Input() backgroundColor!: string;
@@ -124,50 +126,176 @@ export class GraficaComponent implements OnInit, OnDestroy {
   @Input() Style: any = "font-size: 12px;";
   @Input() NombreSensor !: string;
   @Input() SizePoint: number = 1;
-
-
   public elementos !: NodeListOf<HTMLInputElement>;
 
 
-
-
+  /********************************************************************************************* */
   constructor(private sensorInformation: GetInformationControllersService, private sanitizer: DomSanitizer) {
 
     this.Style = sanitizer.bypassSecurityTrustStyle(this.Style);
   }
-
+  /********************************************************************************************* */
   ngOnInit(): void {
+
     this.browserWidth = window.innerWidth;
     window.addEventListener('resize', () => {
       this.browserWidth = window.innerWidth;
       if (this.widthLienzo) {
-      this.widthLienzo = (this.widthLienzoPorcentaje * this.browserWidth)/100;
-      if(this.browserWidth < 700){
-        this.widthLienzo = this.browserWidth-50;
-        this.heightLienzo = (350 * this.browserWidth)/700;
-      }
-      if(this.widthLienzo < 300){
-        this.widthLienzo = 310;
-        this.heightLienzo = 310;
-      }
-      
-      console.log(this.widthLienzoPorcentaje);
+        this.widthLienzo = (this.widthLienzoPorcentaje * this.browserWidth) / 100;
+        if (this.browserWidth < 700) {
+          this.widthLienzo = this.browserWidth - 50;
+          this.heightLienzo = (350 * this.browserWidth) / 700;
+        }
+        if (this.widthLienzo < 300) {
+          this.widthLienzo = 310;
+          this.heightLienzo = 310;
+        }
       }
     })
+
     setInterval(() => {
-      if(this.widthLienzo < 300 && this.heightLienzo < 300)
-      {
+      if (this.widthLienzo < 300 && this.heightLienzo < 300) {
         this.widthLienzo = 320;
-        this.heightLienzo = 320;  
+        this.heightLienzo = 320;
         this.isResizeHeight = false;
         this.isResizeWidth = false;
       }
-     }, 0);
+    }, 0);
 
     this.setPositionInit();
     this.setPosicionLienzo();
     this.setPosicionLienzoVertical();
+    this.ObtenerDatos();
+    this.ObtenerDatosTiempoReal();
+    this.widthLienzo = 600;
+    this.widthLienzoPorcentaje = (this.widthLienzo * 100) / this.browserWidth;
+    this.heightLienzo = 500;
+  }
+  /********************************************************************************************* */
+  setPositionInit() {
+    this.elementos = (document.querySelectorAll('.container_grafica') as NodeListOf<HTMLInputElement>);
+    this.elementos[this.Id].style.top = this.CoordY + "px";
+  }
+
+  /********************************************************************************************* */
+  setPosicionLienzo() {
+    window.addEventListener('mousemove', (event) => {
+      const browserWidth = window.innerWidth;
+      if (this.isResizeWidth) {
+        window.addEventListener('click', () => {
+          this.isResizeWidth = false;
+          this.isResizeHeight = false;
+        })
+        /*********Width**********/
+        if (this.widthLienzo < 300 && this.heightLienzo < 300) {
+          this.widthLienzo = 320;
+          this.heightLienzo = 320;
+          this.isResizeHeight = false;
+          this.isResizeWidth = false;
+        } else if (this.widthLienzo < 300) {
+          this.widthLienzo = 320;
+          this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
+          this.isResizeWidth = false;
+        } else {
+          if (this.CoordX == 2) {
+            this.widthLienzo = ((event.clientX - this.CoordX) + 100);
+            this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
+          } else {
+            this.widthLienzo = (event.clientX - this.CoordX);
+            this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
+          }
+        }
+        if (this.widthLienzo > browserWidth || (this.widthLienzo + this.CoordX) > browserWidth) {
+          this.widthLienzo = browserWidth;
+          this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
+        }
+      } else {
+        this.widthLienzo = this.widthLienzo;
+        this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
+        this.heightLienzo = this.heightLienzo;
+      }
+    })
+  }
+  /********************************************************************************************* */
+  setPosicionLienzoVertical() {
+    window.addEventListener('mousemove', (event) => {
+      if (this.isResizeHeight) {
+        window.addEventListener('click', () => {
+          this.isResizeHeight = false;
+          this.isResizeWidth = false;
+        })
+        if (this.widthLienzo < 300 && this.heightLienzo < 300) {
+          this.isResizeHeight = false;
+          this.isResizeWidth = false;
+        } else if (this.heightLienzo < 300) {
+          this.heightLienzo = 320;
+          this.isResizeHeight = false;
+        } else {
+          this.heightLienzo = (event.pageY) - this.CoordY;
+        }
+      } else {
+        this.widthLienzo = this.widthLienzo;
+        this.heightLienzo = this.heightLienzo;
+      }
+    })
+  }
+  /********************************************************************************************* */
+  getCoordenada(element: HTMLElement) {
+    var scroll = window.scrollY;
+    this.CoordY = (element.getBoundingClientRect().top + scroll);
+    this.CoordX = (element.getBoundingClientRect().x);
+  }
+  /********************************************************************************************* */
+  defineSizeOnY() {
+    this.isResizeHeight = true;
+    this.isResizeWidth = true;
+  }
+  /********************************************************************************************* */
+  defineSizeOffY() {
+    this.isResizeHeight = false;
+    this.isResizeWidth = false;
+    this.widthLienzo = this.widthLienzo;
+    this.heightLienzo = this.heightLienzo;
+  }
+  /********************************************************************************************* */
+  ngOnDestroy() {
+    this.getDataSensor?.unsubscribe();
+  }
+  /********************************************************************************************* */
+  ObtenerDatosTiempoReal() {
+    setInterval(() => {
+      this.ObtenerDatos();
+    }, 10000);
+  }
+  ObtenerDatos() {
+    this.lineChartOptions = {
+      animation: false,
+      fill: 'origin',
+      responsive: true,
+      backgroundColor: "['red','green','blue','purple','yellow','brown','magenta','cyan']",
+      maintainAspectRatio: false,
+      options: {
+        animation: {
+          duration: 0
+        }
+      },
+      scales: {
+        y: {
+          stacked: true,
+          grid: {
+            display: false,
+            color: "rgba(255,255,255,1)"
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          }
+        }
+      }
+    };
     this.getDataSensor = this.sensorInformation.getDataSensor({ "name": this.NombreSensor }).subscribe((getData) => {
+
       this.dataSensor = getData.data.map(Number);
       this.Nombre = getData.nombre;
       if (this.dataSensor) {
@@ -185,172 +313,7 @@ export class GraficaComponent implements OnInit, OnDestroy {
         this.barChartLabels = this.dataSensor.map(String);
       }
     })
-
-    window.addEventListener('mousemove', (event) => {
-      console.log(event.pageX + "||" + event.clientX);
-    })
-
-    this.widthLienzo = 600;
-    this.widthLienzoPorcentaje = (this.widthLienzo * 100)/this.browserWidth;
-    this.heightLienzo = 500;
   }
-
-  setPositionInit() {
-    this.elementos = (document.querySelectorAll('.container_grafica') as NodeListOf<HTMLInputElement>);
-    this.elementos[this.Id].style.top = this.CoordY + "px";
-  }
-
-
-  setPosicionLienzo() {
-    window.addEventListener('mousemove', (event) => {
-
-      const browserWidth = window.innerWidth;
-      if (this.isResizeWidth) {
-        window.addEventListener('click', () => {
-          this.isResizeWidth = false;
-          this.isResizeHeight = false;
-        })
-        /*********Width**********/
-        if(this.widthLienzo < 300 && this.heightLienzo < 300)
-        {
-          this.widthLienzo = 320;
-          this.heightLienzo = 320;  
-          this.isResizeHeight = false;
-          this.isResizeWidth = false;
-        }else if (this.widthLienzo < 300) {
-          this.widthLienzo = 320;
-          this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100)/this.browserWidth).toString());
-          this.isResizeWidth = false;
-        } else {
-          if (this.CoordX == 2) {
-            this.widthLienzo = ((event.clientX - this.CoordX) + 100);
-            this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100)/this.browserWidth).toString());
-          } else {
-            this.widthLienzo = (event.clientX - this.CoordX);
-            this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100)/this.browserWidth).toString());
-          }
-        }
-        if (this.widthLienzo > browserWidth || (this.widthLienzo + this.CoordX) > browserWidth) {
-          this.widthLienzo = browserWidth;
-          this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100)/this.browserWidth).toString());
-        }
-      } else {
-        this.widthLienzo = this.widthLienzo;
-        this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100)/this.browserWidth).toString());
-        this.heightLienzo = this.heightLienzo;
-      }
-    })
-  }
-
-  setPosicionLienzoVertical() {
-
-    window.addEventListener('mousemove', (event) => {
-      if (this.isResizeHeight) {
-        window.addEventListener('click', () => {
-          this.isResizeHeight = false;
-          this.isResizeWidth = false;
-        })
-        if(this.widthLienzo < 300 && this.heightLienzo < 300)
-        {
-          this.isResizeHeight = false;
-          this.isResizeWidth = false;
-        }else if (this.heightLienzo < 300) {
-          this.heightLienzo = 320;
-          this.isResizeHeight = false;
-        } else {
-
-          this.heightLienzo = (event.pageY) - this.CoordY;
-        }
-
-      } else {
-        this.widthLienzo = this.widthLienzo;
-        this.heightLienzo = this.heightLienzo;
-      }
-    })
-  }
-
-  getCoordenada(element: HTMLElement) {
-    var scroll = window.scrollY;
-    //alert("Coordenada del elemento: "+element.getBoundingClientRect().top+ " || El scroll es: " + scroll + " || tamaño del elemento en height: "+ element.getBoundingClientRect().height);
-    this.CoordY = (element.getBoundingClientRect().top + scroll);
-    this.CoordX = (element.getBoundingClientRect().x);
-    console.log("Coordenada X: " + this.CoordX);
-    console.log("Coordenada Y: " + this.CoordY);
-    console.log("Width: " + element.getBoundingClientRect().width);
-    console.log("Height: " + element.getBoundingClientRect().height);
-  }
-
-
-  // definePositionOnX() {
-  //   this.isResizeWidth = true;
-  //   this.isResizeHeight = false;
-  // }
-  // definePositionOffX() {
-  //   this.isResizeWidth = false;
-  //   this.isResizeHeight = false;
-  //   this.widthLienzo = this.widthLienzo;
-  //   this.heightLienzo = this.heightLienzo;
-  // }
-  defineSizeOnY() {
-    this.isResizeHeight = true;
-    this.isResizeWidth = true;
-    console.log("entro aqui");
-  }
-  defineSizeOffY() {
-    this.isResizeHeight = false;
-    this.isResizeWidth = false;
-    this.widthLienzo = this.widthLienzo;
-    this.heightLienzo = this.heightLienzo;
-  }
-  /*definePositionOn() {
-    this.isChangePosition = true;
-    
-    this.isPositionX = true;
-    this.isPositionY = true;
-  }
-  definePositionOff() {
-    this.isChangePosition = false;
-    this.isPositionX = false;
-    this.isPositionY = false;
-  }
-*/
-
-  /* changePositionGraphic() {
-     window.addEventListener('mousemove', (event) => {
-       if (this.isChangePosition) {
-         window.addEventListener('click',() => {
-           this.definePositionOff();
-         })
-         console.log(this.Id);
-         let elemento = this.elementos[this.Id];
-         let actualWidth = elemento.getBoundingClientRect().width;
-         let actualHeight = elemento.getBoundingClientRect().height;
-         let actualX = elemento.getBoundingClientRect().x;
-         let actualY = elemento.getBoundingClientRect().y;
-         let X = event.pageX;
-         let Y = event.pageY;
-         console.log("coordenada X del Objeto: " + actualX);
-         console.log("coordenada Y del Objeto: " + actualY);
-         console.log("coordenada X del mouse en la pagina: " + X);
-         console.log("coordenada X del mouse en la pagina: " + Y);
-         console.log("width del objeto: " + actualWidth);
-         let posicionFinalX = X - (actualWidth);
-         //alert(posicionFinalX);
-         elemento.style.left = posicionFinalX + "px";
-         let posicionFinalY = (Y - 120);
-         this.SizeStyle = `
-         position: relative; width: 100%; height: 100%;
-         left: ${posicionFinalX}px;
-         top: ${posicionFinalY}px;
-          `;
-         this.SizeStyle = this.sanitizer.bypassSecurityTrustStyle(this.SizeStyle);
- 
- 
-       }
-     })
-   }*/
-  ngOnDestroy() {
-    this.getDataSensor?.unsubscribe();
-  }
-
 }
+
+/********************************************************************************************* */
