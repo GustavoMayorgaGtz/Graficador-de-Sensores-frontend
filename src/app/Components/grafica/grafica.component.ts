@@ -299,18 +299,45 @@ export class GraficaComponent implements OnInit, OnDestroy {
       this.dataSensor = getData.data.map(Number);
       this.Nombre = getData.nombre;
       if (this.dataSensor) {
-        this.lineChartData = [
-          {
-            data: this.dataSensor, label: getData.nombre,
-            backgroundColor: this.backgroundColor, // background donde se muestran las opciones o los valores "rgb(180, 206, 237)"
-            borderColor: this.borderColor, //Color de la linea conectora "rgb(10, 83, 171)"
-            pointBorderColor: this.pointBackgroundColor, //color del borde de los puntos
-            hoverBorderColor: this.hoverBorderColor, //Es el fondo de los datos cuando haces hover sobre un nodo
-            pointBackgroundColor: this.pointBackgroundColor, //Background del punto  
-            borderWidth: this.SizePoint
-          },
-        ];
-        this.barChartLabels = this.dataSensor.map(String);
+        if (this.dataSensor.length > 30) {
+          let arrayLimitData = [];
+          let iterator = 0;
+          for (let i = 0; i < this.dataSensor.length; i++) {
+            if (i >= (this.dataSensor.length - 30)) {
+              arrayLimitData[iterator] = this.dataSensor[i];
+              iterator++;
+            }
+          }
+             console.log(arrayLimitData);
+          this.lineChartData = [
+            {
+              data: arrayLimitData, label: getData.nombre,
+              backgroundColor: this.backgroundColor, // background donde se muestran las opciones o los valores "rgb(180, 206, 237)"
+              borderColor: this.borderColor, //Color de la linea conectora "rgb(10, 83, 171)"
+              pointBorderColor: this.pointBackgroundColor, //color del borde de los puntos
+              hoverBorderColor: this.hoverBorderColor, //Es el fondo de los datos cuando haces hover sobre un nodo
+              pointBackgroundColor: this.pointBackgroundColor, //Background del punto  
+              borderWidth: this.SizePoint
+            },
+          ];
+          this.barChartLabels = arrayLimitData.map(String);
+       
+        } else {
+
+          this.lineChartData = [
+            {
+              data: this.dataSensor, label: getData.nombre,
+              backgroundColor: this.backgroundColor, // background donde se muestran las opciones o los valores "rgb(180, 206, 237)"
+              borderColor: this.borderColor, //Color de la linea conectora "rgb(10, 83, 171)"
+              pointBorderColor: this.pointBackgroundColor, //color del borde de los puntos
+              hoverBorderColor: this.hoverBorderColor, //Es el fondo de los datos cuando haces hover sobre un nodo
+              pointBackgroundColor: this.pointBackgroundColor, //Background del punto  
+              borderWidth: this.SizePoint
+            },
+          ];
+          this.barChartLabels = this.dataSensor.map(String);
+
+        }
       }
     })
   }

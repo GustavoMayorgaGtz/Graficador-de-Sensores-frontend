@@ -3,7 +3,7 @@
     <!--  -->
        
         <div class="container_graph" [style.width.px]="widthLienzo" [style.height.px]="heightLienzo" (mousemove)="getCoordenada(Grafica)"  >
-            <apx-chart
+            <apx-chart *ngIf="typeGraphic !== 'radialBar'"
             [style.width.px]="widthLienzo" [style.height.px]="heightLienzo"
             [series]="series"
             [chart]="chart"
@@ -13,6 +13,16 @@
             [dataLabels]="dataLabels"
             [stroke]="stroke"
           ></apx-chart>
+           <apx-chart *ngIf="typeGraphic === 'radialBar'"
+            [style.width.px]="widthLienzo" [style.height.px]="heightLienzo"
+            [series]="series2"
+            [chart]="chartRadialBar" 
+            [labels]="labels"
+            [plotOptions]="plotOptions"
+            [fill] = "fill"
+            ></apx-chart> 
+           
+              
         </div>
       
         <div class="container_menu" >

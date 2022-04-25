@@ -3,7 +3,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
@@ -11,20 +10,30 @@ import {
   ApexTitleSubtitle,
   ApexResponsive,
   ApexDataLabels,
-  ApexStroke
+  ApexStroke,
+  ApexPlotOptions,
+  ApexFill,
+  ApexNonAxisChartSeries
 } from "ng-apexcharts";
+import { redraw } from 'plotly.js';
 import { Subscription } from 'rxjs';
 import { GetInformationControllersService } from 'src/app/Services/get-information-controllers.service';
 
 export type ChartOptions = {
-  series: ApexAxisChartSeries;
+  serie2: ApexNonAxisChartSeries;
   chart: ApexChart;
+  chartRadialBar: ApexChart;
   xaxis: ApexXAxis;
   yaxis: ApexYAxis;
   title: ApexTitleSubtitle;
   responsive: ApexResponsive[];
   dataLabels: ApexDataLabels;
   stroke: ApexStroke;
+  plotOptions: ApexPlotOptions;
+  fill: ApexFill;
+  series: ApexAxisChartSeries;
+  labels: string[];
+  dataLabelsRadial: ApexDataLabels;
 };
 
 
@@ -37,28 +46,26 @@ export class GraficaApexComponent implements OnInit {
   dataLabels: ApexDataLabels = {
     enabled: true
   }
-   stroke: ApexStroke = {
-     curve: 'straight'
-   }
-
-
+  stroke: ApexStroke = {
+    curve: 'straight'
+  }
   series: ApexAxisChartSeries = [{
     name: 'series-1',
-    data: [44, 55, 13, 33,1,2,3,4,5],
+    data: [44],
     color: '#C53455',
-  
+
   }];
 
   chart: ApexChart = {
-    zoom:{
-      enabled:true,
+    zoom: {
+      enabled: true,
       autoScaleYaxis: false,
-      type:'y'
+      type: 'y'
     },
     width: "90%",
     height: "90%",
     type: "line",
-     
+
   }
   xaxis: ApexXAxis = {
     categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
@@ -95,6 +102,9 @@ export class GraficaApexComponent implements OnInit {
       color: '#ffffff'
     }
   };
+  
+
+
   /*********************************************************************************************************************/
   public data?: Object;
   public getDataSensor: Subscription | undefined;
@@ -127,16 +137,86 @@ export class GraficaApexComponent implements OnInit {
   public elementos !: NodeListOf<HTMLInputElement>;
 
 
+  
+/****************Radial Bar default options */
+    series2:ApexNonAxisChartSeries = [90];
+    chartRadialBar:ApexChart = {
+      zoom: {
+        enabled: true,
+        autoScaleYaxis: false,
+        type: 'y'
+      },
+      width: "95%",
+      height: "95%",
+      type: "radialBar",
+      };
+
+    plotOptions: ApexPlotOptions= {
+      radialBar: {
+        startAngle: -90,
+        endAngle: 90,
+        track:{
+          background: "#ABB2B9",
+          strokeWidth: "50%",
+          margin: 0, // margin is in pixels
+          dropShadow: {
+            enabled: true,
+            top: -3,
+            left: 0,
+            blur: 4,
+            opacity: 0.35
+          }
+        },
+        hollow: {
+          size: "70%",
+          
+        },
+        dataLabels: {
+          show: true,
+          name: {
+            offsetY: -50,
+            show: true,
+            color: "#ffffff",
+            fontSize: "calc(10px + 1vw)"
+          },
+          value: {
+            offsetY: -30,
+            color: "#ccc",
+            fontSize: "calc(10px + 1vw)",
+            show: true
+          }
+        }
+      }
+    
+    };
+    labels: string[]=  ["Cricket"];
+    fill: ApexFill = {
+      type: "gradient",
+      gradient: {
+        gradientToColors: ["#C0392B"],
+        shade: "dark",
+        shadeIntensity: 0.4,
+        inverseColors: false,
+        opacityFrom: .7,
+        opacityTo: 1,
+        stops: [0, 50,100]
+      }
+    };
+    
+  
+  
+
   /*********************************************************************************************************************/
   constructor(private sensorInformation: GetInformationControllersService, private sanitizer: DomSanitizer) {
     this.Style = sanitizer.bypassSecurityTrustStyle(this.Style);
+
   }
   /*********************************************************************************************************************/
   ngOnInit(): void {
-    let notificacion =  new Notification("prueba");
-    Notification.requestPermission().then(function(permission) { 
-      console.log(permission);
-    });
+    /*  let notificacion =  new Notification("prueba");
+      Notification.requestPermission().then(function(permission) { 
+        console.log(permission);
+      });*/
     this.chart = {
       type: this.typeGraphic
     }
@@ -217,7 +297,7 @@ export class GraficaApexComponent implements OnInit {
             type: 'x',
             autoScaleYaxis: false
           }
-    
+
         }
         if (this.widthLienzo < 300 && this.heightLienzo < 300) {
           this.widthLienzo = 320;
@@ -308,85 +388,105 @@ export class GraficaApexComponent implements OnInit {
       this.dataSensor = getData.data.map(Number);
       this.Nombre = getData.nombre;
       if (this.dataSensor) {
-      
-        if(this.dataSensor.length > 30)
-        {
-            /*****Arreglo que se usa para cuando los elementos superan los 30 indices **********/
-          let scrollData: number[] = [];
-          let iterator: number = 0;
-          let sizeActualArray = this.dataSensor.length;
-          for(let index = 0; index < sizeActualArray; index++)
-          {
-            if(sizeActualArray - 29<= index)
-            {
-                scrollData[iterator] = this.dataSensor[index];
-                iterator++;
-            }
+        if (this.typeGraphic == 'radialBar') {
+          this.configuracionRadialBar();
+        } else {
+          /*************************** */
+          if (this.dataSensor.length > 30) {
+            this.configuracionLimitData();
+          } else {
+            this.configuracionNormal();
           }
-          console.log("ScrollData"+ scrollData);
-  
-       this.series = [{
-         name: 'series-1',
-         data: scrollData,
-         color: '#C53455'
-       }];    
-
-          this.chart = {
-            animations: {
-              enabled: false
-            },
-            width: "95%",
-            height: "95%",
-            type: this.typeGraphic,
-            zoom: {
-              enabled: true,
-              type: 'x',
-              autoScaleYaxis: false
-            },
-             stacked: false,
-           }
-          this.dataLabels = {
-            enabled: false
-          }
-          this.xaxis = {
-            categories: scrollData,
-            max: 31 ,
-            labels: {
-              show: false,
-              style: {
-                colors: '#ffffff',
-                fontSize: '12px',
-                fontFamily: 'Helvetica, Arial, sans-serif',
-                fontWeight: 400
-              }
-            }
-          }
-        }else{
-                this.series = [{
-            name: 'series-1',
-            data: this.dataSensor,
-            color: '#C53455'
-          }];    
-
-          this.xaxis = {
-            categories: this.dataSensor,
-            max: this.dataSensor.length,
-            labels: {
-              show: false,
-              style: {
-                colors: '#ffffff',
-                fontSize: '12px',
-                fontFamily: 'Helvetica, Arial, sans-serif',
-                fontWeight: 400
-              }
-            }
-          }
+          /*************************** */
         }
-     
       }
     })
-    
-  
+
+
+  }
+
+  configuracionRadialBar() {
+    if (this.dataSensor) {
+ 
+
+    }
+  }
+
+  configuracionLimitData() {
+    if (this.dataSensor) {
+      /*****Arreglo que se usa para cuando los elementos superan los 30 indices **********/
+      let scrollData: number[] = [];
+      let iterator: number = 0;
+      let sizeActualArray = this.dataSensor.length;
+      for (let index = 0; index < sizeActualArray; index++) {
+        if (sizeActualArray - 29 <= index) {
+          scrollData[iterator] = this.dataSensor[index];
+          iterator++;
+        }
+      }
+      console.log("ScrollData" + scrollData);
+
+      this.series = [{
+        name: 'series-1',
+        data: scrollData,
+        color: '#C53455'
+      }];
+
+      this.chart = {
+        animations: {
+          enabled: false
+        },
+        width: "95%",
+        height: "95%",
+        type: this.typeGraphic,
+        zoom: {
+          enabled: true,
+          type: 'x',
+          autoScaleYaxis: false
+        },
+        stacked: false,
+      }
+      this.dataLabels = {
+        enabled: false
+      }
+      this.xaxis = {
+        categories: scrollData,
+        max: 31,
+        labels: {
+          show: false,
+          style: {
+            colors: '#ffffff',
+            fontSize: '12px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 400
+          }
+        }
+      }
+    }
+  }
+
+  configuracionNormal() {
+    if (this.dataSensor) {
+      this.series = [{
+        name: 'series-1',
+        data: this.dataSensor,
+        color: '#C53455'
+      }];
+
+      this.xaxis = {
+        categories: this.dataSensor,
+        max: this.dataSensor.length,
+        labels: {
+          show: false,
+          style: {
+            colors: '#ffffff',
+            fontSize: '12px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 400
+          }
+        }
+      }
+    }
   }
 }
 

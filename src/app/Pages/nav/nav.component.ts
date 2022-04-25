@@ -56,7 +56,7 @@ export class NavComponent implements OnInit {
     this.typeGraphic = [
       'line',
       'bar',
-      'area'
+      'radialBar'
     ];
 
     this.pointBackgroundColor = [
