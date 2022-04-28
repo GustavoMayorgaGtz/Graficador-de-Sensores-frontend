@@ -1,7 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-
-
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -21,90 +19,18 @@ import { GetInformationControllersService } from 'src/app/Services/get-informati
 
 export type ChartOptions = {
   serie2: ApexNonAxisChartSeries;
-  chart: ApexChart;
   chartRadialBar: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  title: ApexTitleSubtitle;
-  responsive: ApexResponsive[];
-  dataLabels: ApexDataLabels;
-  stroke: ApexStroke;
   plotOptions: ApexPlotOptions;
   fill: ApexFill;
-  series: ApexAxisChartSeries;
-  labels: string[];
   dataLabelsRadial: ApexDataLabels;
 };
 
-
 @Component({
-  selector: 'app-grafica-apex',
-  templateUrl: './grafica-apex.component.html',
-  styleUrls: ['./grafica-apex.component.css']
+  selector: 'app-grafica-radial-bar',
+  templateUrl: './grafica-radial-bar.component.html',
+  styleUrls: ['./grafica-radial-bar.component.css']
 })
-export class GraficaApexComponent implements OnInit {
-  dataLabels: ApexDataLabels = {
-    enabled: true
-  }
-  stroke: ApexStroke = {
-    curve: 'straight'
-  }
-  series: ApexAxisChartSeries = [{
-    name: 'series-1',
-    data: [44],
-    color: '#C53455',
-
-  }];
-
-  chart: ApexChart = {
-    zoom: {
-      enabled: true,
-      autoScaleYaxis: false,
-      type: 'y'
-    },
-    width: "90%",
-    height: "90%",
-    type: "line",
-
-  }
-  xaxis: ApexXAxis = {
-    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
-    max: 5,
-    labels: {
-      show: true,
-      style: {
-        colors: '#ffffff',
-        fontSize: '12px',
-        fontFamily: 'Helvetica, Arial, sans-serif',
-        fontWeight: 400
-      }
-    }
-  }
-
-  yaxis: ApexYAxis = {
-    show: true,
-    labels: {
-      style: {
-        colors: '#ffffff',
-        fontSize: '12px',
-        fontFamily: 'Helvetica, Arial, sans-serif',
-        fontWeight: 400
-      }
-    }
-  }
-  title: ApexTitleSubtitle = {
-    text: "Titulo",
-    align: 'center',
-    style: {
-      fontSize: '14px',
-      fontWeight: '400px',
-      fontFamily: 'Helvetica, Arial, sans-serif',
-      color: '#ffffff'
-    }
-  };
-  
-
-
+export class GraficaRadialBarComponent implements OnInit {
   /*********************************************************************************************************************/
   public data?: Object;
   public getDataSensor: Subscription | undefined;
@@ -218,9 +144,17 @@ export class GraficaApexComponent implements OnInit {
       Notification.requestPermission().then(function(permission) { 
         console.log(permission);
       });*/
-    this.chart = {
-      type: this.typeGraphic
-    }
+    this.chartRadialBar = {
+      zoom: {
+        enabled: true,
+        autoScaleYaxis: false,
+        type: 'y'
+      },
+      width: "100%",
+      height: "130%",
+      type: "radialBar",
+      offsetY: 50
+      };
     this.browserWidth = window.innerWidth;
     window.addEventListener('resize', () => {
       this.browserWidth = window.innerWidth;
@@ -247,20 +181,7 @@ export class GraficaApexComponent implements OnInit {
         offsetY: 50
         };
     })
-    this.chart = {
-      animations: {
-        enabled: false
-      },
-      width: "95%",
-      height: "95%",
-      type: this.typeGraphic,
-      zoom: {
-        enabled: true,
-        type: 'x',
-        autoScaleYaxis: false
-      }
 
-    }
     if (this.widthLienzo < 300 && this.heightLienzo < 300) {
       this.widthLienzo = 320;
       this.heightLienzo = 320;
@@ -308,20 +229,7 @@ export class GraficaApexComponent implements OnInit {
           type: "radialBar",
           offsetY: 50
           };
-        this.chart = {
-          animations: {
-            enabled: false
-          },
-          width: "95%",
-          height: "95%",
-          type: this.typeGraphic,
-          zoom: {
-            enabled: true,
-            type: 'x',
-            autoScaleYaxis: false
-          }
-
-        }
+    
         if (this.widthLienzo < 300 && this.heightLienzo < 300) {
           this.widthLienzo = 320;
           this.heightLienzo = 320;
@@ -411,17 +319,7 @@ export class GraficaApexComponent implements OnInit {
       this.dataSensor = getData.data.map(Number);
       this.Nombre = getData.nombre;
       if (this.dataSensor) {
-        if (this.typeGraphic == 'radialBar') {
           this.configuracionRadialBar();
-        } else {
-          /*************************** */
-          if (this.dataSensor.length > 30) {
-            this.configuracionLimitData();
-          } else {
-            this.configuracionNormal();
-          }
-          /*************************** */
-        }
       }
     })
 
@@ -432,83 +330,6 @@ export class GraficaApexComponent implements OnInit {
     if (this.dataSensor) {
  
 
-    }
-  }
-
-  configuracionLimitData() {
-    if (this.dataSensor) {
-      /*****Arreglo que se usa para cuando los elementos superan los 30 indices **********/
-      let scrollData: number[] = [];
-      let iterator: number = 0;
-      let sizeActualArray = this.dataSensor.length;
-      for (let index = 0; index < sizeActualArray; index++) {
-        if (sizeActualArray - 29 <= index) {
-          scrollData[iterator] = this.dataSensor[index];
-          iterator++;
-        }
-      }
-      console.log("ScrollData" + scrollData);
-
-      this.series = [{
-        name: 'series-1',
-        data: scrollData,
-        color: '#C53455'
-      }];
-
-      this.chart = {
-        animations: {
-          enabled: false
-        },
-        width: "95%",
-        height: "95%",
-        type: this.typeGraphic,
-        zoom: {
-          enabled: true,
-          type: 'x',
-          autoScaleYaxis: false
-        },
-        stacked: false,
-      }
-      this.dataLabels = {
-        enabled: false
-      }
-      this.xaxis = {
-        categories: scrollData,
-        max: 31,
-        labels: {
-          show: false,
-          style: {
-            colors: '#ffffff',
-            fontSize: '12px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            fontWeight: 400
-          }
-        }
-      }
-    }
-  }
-
-  configuracionNormal() {
-    if (this.dataSensor) {
-      this.series = [{
-        name: 'series-1',
-        data: this.dataSensor,
-        color: '#C53455'
-      }];
-
-      this.xaxis = {
-        categories: this.dataSensor,
-        max: this.dataSensor.length,
-        labels: {
-          show: false,
-          style: {
-            colors: '#ffffff',
-            fontSize: '12px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            fontWeight: 400
-          }
-        }
-      }
     }
   }
 }

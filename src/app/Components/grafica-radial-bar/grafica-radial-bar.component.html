@@ -1,0 +1,29 @@
+<div  class="container_grafica" #ContainerGrafica  #Grafica  [style.width.px]="widthLienzo" [style.height.px]="heightLienzo" [style]="Style" cdkDrag>
+    <!--  -->
+        <div class="container_graph" [style.width.px]="widthLienzo" [style.height.px]="heightLienzo" (mousemove)="getCoordenada(Grafica)"  >
+           <apx-chart
+            [style.width.px]="widthLienzo" [style.height.px]="heightLienzo"
+            [series]="series2"
+            [chart]="chartRadialBar" 
+            [labels]="labels"
+            [plotOptions]="plotOptions"
+            [fill] = "fill"
+            ></apx-chart>    
+        </div>
+        <div class="container_menu" >
+            <div class="btn_move_graphic" (mousemove)="getCoordenada(Grafica)" >
+               
+                <div class="transparent2" cdkDragHandle  > 
+                    <!-- (mousedown)="definePositionOn()" (mouseup)="definePositionOff()" -->
+                    <img class="img_move" src="./assets/UI/moverse.png" >
+                </div>
+            </div> 
+            <div class="btn_resize_horizontal" draggable="false" (mousemove)="getCoordenada(Grafica)">
+              
+                <div class="transparent" (mousedown)="defineSizeOnY()" (mouseup)="defineSizeOffY()">
+                    <img class="img_resize_height" src="./assets/UI/flecha_derecha.png" draggable="false"> </div>
+            </div> 
+           
+        </div>
+ 
+    </div>

@@ -1,0 +1,21 @@
+<div class="container_principal">
+    <div class="Menu_Options"> Hola </div>
+        <div class="container_view">
+            <div class="container_sensores" *ngFor="let item of keysData; let i = index" >
+                <span class="font1 span-btn-dinamic"> Ver </span>
+                <div class="container_slide">
+                    <span class="font1 span-btn-dinamic" > {{item}} </span>
+                </div>
+                <div class="ghost_button" (click)="getSensorDataEvent($event)" id={{i}}></div>
+            </div>
+        </div>
+        <div class="Menu">
+            <div class="container_sensores" *ngFor="let item of nombres; let i = index" >
+                <span class="font1 span-btn-dinamic"> Ver </span>
+                <div class="container_slide">
+                    <span class="font1 span-btn-dinamic" > {{item}} </span>
+                </div>
+                <div class="ghost_button" (click)=" getSensorKeysNameEvent($event)" id={{i}}></div>
+            </div>
+        </div>
+</div>

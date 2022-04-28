@@ -11,12 +11,14 @@ import { CommonModule } from '@angular/common';
 import { ComponentsModuleModule } from './Components/components-module.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { NgApexchartsModule} from 'ng-apexcharts';
+import { CrearVariableComponent } from './Pages/crear-variable/crear-variable.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent
+    NavComponent,
+    CrearVariableComponent
   ],
   imports: [
     ComponentsModuleModule,

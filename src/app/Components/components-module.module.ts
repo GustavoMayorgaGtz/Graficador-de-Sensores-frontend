@@ -8,13 +8,15 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { GraficaApexComponent } from './grafica-apex/grafica-apex.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { GraficaRadialBarComponent } from './grafica-radial-bar/grafica-radial-bar.component';
 
 
 
 @NgModule({
   declarations: [
     GraficaComponent,
-    GraficaApexComponent
+    GraficaApexComponent,
+    GraficaRadialBarComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   ],
   exports: [
     GraficaComponent,
-    GraficaApexComponent
+    GraficaApexComponent,
+    GraficaRadialBarComponent
   ]
 })
 export class ComponentsModuleModule { }

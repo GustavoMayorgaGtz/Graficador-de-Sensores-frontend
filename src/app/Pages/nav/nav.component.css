@@ -10,6 +10,9 @@ nav {
     position: relative;
    /* box-shadow: 0px 5px 15px rgb(177, 177, 177);*/
 }
+.isGraph{
+    width: 100%;
+}
 
 .container_main {
     width: 100%;

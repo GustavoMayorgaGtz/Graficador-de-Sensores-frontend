@@ -24,4 +24,10 @@ getDataSensor(body: any)
 {
   return this.http.post<any>('http://192.168.100.129:3000/Conexiones/getConexiones',body);
 }
+
+getAllDataConexiones()
+{
+  return this.http.post<any>('http://192.168.100.129:3000/Conexiones/getAllConexiones', null);
+}
+
 }
