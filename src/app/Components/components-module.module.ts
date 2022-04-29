@@ -9,6 +9,7 @@ import { GraficaApexComponent } from './grafica-apex/grafica-apex.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { GraficaRadialBarComponent } from './grafica-radial-bar/grafica-radial-bar.component';
+import { GraficaPreviewComponent } from './grafica-preview/grafica-preview.component';
 
 
 
@@ -16,7 +17,8 @@ import { GraficaRadialBarComponent } from './grafica-radial-bar/grafica-radial-b
   declarations: [
     GraficaComponent,
     GraficaApexComponent,
-    GraficaRadialBarComponent
+    GraficaRadialBarComponent,
+    GraficaPreviewComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { GraficaRadialBarComponent } from './grafica-radial-bar/grafica-radial-b
   exports: [
     GraficaComponent,
     GraficaApexComponent,
-    GraficaRadialBarComponent
+    GraficaRadialBarComponent,
+    GraficaPreviewComponent
   ]
 })
 export class ComponentsModuleModule { }

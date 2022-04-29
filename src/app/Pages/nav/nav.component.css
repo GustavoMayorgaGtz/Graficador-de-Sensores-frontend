@@ -12,6 +12,7 @@ nav {
 }
 .isGraph{
     width: 100%;
+    overflow: hidden;
 }
 
 .container_main {
@@ -19,7 +20,7 @@ nav {
     height: 100%;
     min-height: 1000px;
     display: flex;
-    background-color:  rgb(18, 18, 18 );;
+    background-color:  rgb(18, 18, 18 );
     flex-direction: row;
     overflow: hidden;
     flex-wrap: wrap;

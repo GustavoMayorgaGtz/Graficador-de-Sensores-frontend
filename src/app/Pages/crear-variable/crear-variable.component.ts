@@ -19,10 +19,66 @@ export class CrearVariableComponent implements OnInit, OnDestroy {
   public dataSelect: any = {};
   public actualDataSensor: any[] = [];
   public dataView: number[] = [];
-  constructor(private getInformationSensors: GetInformationControllersService) { }
+
+  /* Variables de los estilos */
+  public screeneWidth: number = 0;
+  public screenHeight: number = 0;
+  public heightMenuContainer: number = 0;
+
+    /****************************************************************************/
+    /*********Arreglos que se pasan como parametros  Grafica de ejemplo**********/
+    public nameSensors !: string[];
+    public backgroundColors !: string[];
+    public borderColor !: string[];
+    public typeGraphic !: string[];
+    public pointBackgroundColor !: string[];
+    public hoverBorderColor !: string[];
+    public pointBorderColor !: string[];
+    public SizePoint !: number[];
+  
+    
+  constructor(private getInformationSensors: GetInformationControllersService) {
+    this.setStyle(); 
+   
+
+    this.nameSensors = [
+      "Sensor2"
+    ];
+
+    this.backgroundColors = [
+      "rgba(32, 168, 16, 0.2)"
+      
+    ];
+
+    this.borderColor = [
+      "rgb(32, 168, 16)"
+    ];
+
+
+    this.typeGraphic = [
+      'line'
+    ];
+
+    this.pointBackgroundColor = [
+      "rgb(32, 168, 16)"
+    ];
+
+    this.hoverBorderColor = [
+      "white"
+    ];
+
+    this.pointBorderColor = [
+      "white"
+    ]
+
+    this.SizePoint = [
+      2
+    ]
+  }
 
 
   ngOnInit(): void {
+
     this.GetAllConexion = this.getInformationSensors.getAllDataConexiones().subscribe((data) => {
       if (data) {
         this.datos = data;
@@ -43,6 +99,38 @@ export class CrearVariableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.GetAllConexion?.unsubscribe();
   }
+
+  setStyle() {
+    this.screeneWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
+
+    /**Establecer el tamaño al div menu */
+    this.putHeight();
+    window.addEventListener('scroll', () => {
+      this.putHeight()
+    });
+    window.addEventListener('resize', () => {
+      this.putHeight();
+    });
+
+  }
+
+  putHeight() {
+    
+    let resultado = (window.innerHeight+window.scrollY)-200;
+    if ( resultado < 900) {
+      this.heightMenuContainer = (window.innerHeight - 200) + window.scrollY;
+    } else {
+      this.heightMenuContainer = 900;
+
+    }
+    // console.log("tamaño de la pantalla");
+    // let resultado = (window.innerHeight+window.scrollY)-200;
+    // console.log(resultado);
+  }
+
+
+
 
   getSensorKeysNameEvent(event: Event) {
     /*Funcion que nos sirve para obtener todas las keys de un json seleccionado de un array al presionar un boton*/
@@ -67,13 +155,12 @@ export class CrearVariableComponent implements OnInit, OnDestroy {
     let idx = parseInt(id);
     let thisSensorData = this.keysData[idx].toString();
     console.log("thisSensorData");
-     console.log(thisSensorData);
+    console.log(thisSensorData);
     let size = this.actualDataSensor.length;
     console.log(size);
     console.log(this.actualDataSensor);
     let datosSeleccionados = [];
-    for(let i = 0; i < size; i++)
-    {
+    for (let i = 0; i < size; i++) {
       let seleccion = this.actualDataSensor[i];
       datosSeleccionados.push(seleccion[thisSensorData]);
     }

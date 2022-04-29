@@ -1,21 +1,31 @@
 <div class="container_principal">
-    <div class="Menu_Options"> Hola </div>
-        <div class="container_view">
-            <div class="container_sensores" *ngFor="let item of keysData; let i = index" >
-                <span class="font1 span-btn-dinamic"> Ver </span>
-                <div class="container_slide">
-                    <span class="font1 span-btn-dinamic" > {{item}} </span>
-                </div>
-                <div class="ghost_button" (click)="getSensorDataEvent($event)" id={{i}}></div>
+    <div class="Menu_Options"> </div>
+    <div class="container_view" [style.height.px]="heightMenuContainer">
+        <!-- *********** -->
+        <div class="container_data">
+            <div class="title"> Grafica</div>
+            <div>
+                 <app-grafica-preview  [Id]="0" [NombreSensor]="nameSensors[0]"
+                 [backgroundColor]="backgroundColors[0]" [borderColor]="borderColor[0]" [typeGraphic]="typeGraphic[0]"
+                 [pointBackgroundColor]="pointBackgroundColor[0]" [hoverBorderColor]="hoverBorderColor[0]"
+                 [pointBorderColor]="pointBorderColor[0]" [Style]="'background-color: rgb(33, 32, 31);'" [SizePoint]="SizePoint[0]" ></app-grafica-preview>
             </div>
         </div>
-        <div class="Menu">
-            <div class="container_sensores" *ngFor="let item of nombres; let i = index" >
-                <span class="font1 span-btn-dinamic"> Ver </span>
+
+        <!-- *********** -->
+        <div class="containerDataBase">
+            <div class="title"> Seleccionar Conexion </div>
+            <div class="container_sensores" *ngFor="let item of nombres; let i = index">
+                <span class="font1 span-btn-dinamic"> Ver Datos </span>
                 <div class="container_slide">
-                    <span class="font1 span-btn-dinamic" > {{item}} </span>
+                    <span class="font1 span-btn-dinamic"> {{item}} </span>
                 </div>
                 <div class="ghost_button" (click)=" getSensorKeysNameEvent($event)" id={{i}}></div>
             </div>
         </div>
+    </div>
+    <div class="Menu" [style.height.px]="heightMenuContainer - 6">
+        <div class="title"> Opciones </div>
+    </div>
+
 </div>

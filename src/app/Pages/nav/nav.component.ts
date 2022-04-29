@@ -25,7 +25,8 @@ export class NavComponent implements OnInit {
   public pointBorderColor !: string[];
   public SizePoint !: number[];
 
-
+  /*****Estilos*****/
+  public heightScreen: number = 0;
 
   constructor() {
     this.ids = [
@@ -55,8 +56,8 @@ export class NavComponent implements OnInit {
 
     this.typeGraphic = [
       'line',
-      'bar',
-      'radialBar'
+      'line',
+      'line'
     ];
 
     this.pointBackgroundColor = [
@@ -114,9 +115,10 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
-
+ 
   }
+
+
 
 
 
