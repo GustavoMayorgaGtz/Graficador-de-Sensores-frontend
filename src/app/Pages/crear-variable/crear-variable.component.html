@@ -1,31 +1,81 @@
-<div class="container_principal">
-    <div class="Menu_Options"> </div>
-    <div class="container_view" [style.height.px]="heightMenuContainer">
+<div class="container_principal" >
+    <div class="Menu_Options">
+        <div class="btn_volver">
+            <img src="./assets/UI/volver.png" class="img_volver" (click)="return()">
+        </div>
+        <div class="clear"> Clear </div>
+        <div class="btn_guardar">
+            <span> Guardar Cambios</span>
+        </div>
+
+    </div>
+    <div class="container_view" (resize)="getWidth()" [style.height.px]="heightMenuContainer">
         <!-- *********** -->
         <div class="container_data">
             <div class="title"> Grafica</div>
             <div>
-                 <app-grafica-preview  [Id]="0" [NombreSensor]="nameSensors[0]"
-                 [backgroundColor]="backgroundColors[0]" [borderColor]="borderColor[0]" [typeGraphic]="typeGraphic[0]"
-                 [pointBackgroundColor]="pointBackgroundColor[0]" [hoverBorderColor]="hoverBorderColor[0]"
-                 [pointBorderColor]="pointBorderColor[0]" [Style]="'background-color: rgb(33, 32, 31);'" [SizePoint]="SizePoint[0]" ></app-grafica-preview>
+                <app-grafica-preview [Id]="0" *ngIf="!isRadial"
+                    [typeGraphic]=""
+                    [NombreSensor]="nameSensors[0]" [backgroundColor]="backgroundColors[0]"
+                    [borderColor]="borderColor[0]" [typeGraphic]="typeGraphic"
+                    [pointBackgroundColor]="pointBackgroundColor[0]" [hoverBorderColor]="hoverBorderColor[0]"
+                    [pointBorderColor]="pointBorderColor[0]" [Style]="'background-color: rgb(33, 32, 31);'"
+                    [SizePoint]="SizePoint[0]"></app-grafica-preview>
+
+                <app-grafica-radial-bar  [Id]="0" [NombreSensor]="titulo" *ngIf="isRadial" [OnlyShow]="true" width="100%" hight="200px"
+             ></app-grafica-radial-bar>
             </div>
         </div>
 
         <!-- *********** -->
         <div class="containerDataBase">
             <div class="title"> Seleccionar Conexion </div>
-            <div class="container_sensores" *ngFor="let item of nombres; let i = index">
-                <span class="font1 span-btn-dinamic"> Ver Datos </span>
-                <div class="container_slide">
-                    <span class="font1 span-btn-dinamic"> {{item}} </span>
+            <select class="Select"  #accion1 (change)="selectionData(accion1.value)">
+                <option>Consultas</option>
+                <option>Alertas</option>
+            </select>
+            <!-- **** -->
+            <div *ngIf="isConsulta">
+                <div class="container_sensores" *ngFor="let item of nombres; let i = index">
+                    <span class="font1 span-btn-dinamic"> Ver Datos </span>
+                    <div class="container_slide">
+                        <span class="font1 span-btn-dinamic"> {{item}} </span>
+                    </div>
+                    <div class="ghost_button" (click)=" getSensorKeysNameEvent($event)" id={{i}}></div>
                 </div>
-                <div class="ghost_button" (click)=" getSensorKeysNameEvent($event)" id={{i}}></div>
             </div>
+            <!-- **** -->
+            <div *ngIf="isAlert">
+                <span class="title"> No es posible hacer alertas en este momento </span>
+            </div>
+            <!-- **** -->
         </div>
     </div>
     <div class="Menu" [style.height.px]="heightMenuContainer - 6">
         <div class="title"> Opciones </div>
+        <br>
+        <div class="separatorLine line1"></div>
+        <!-- ***************Objetos *************** -->
+        <div class="container_object object1">
+            <span class="Descripcion">Tipo de Grafica</span>
+            <select class="Select" #accion2 (change)="seleccionTypeGrafica(accion2.value)">
+                <option>Line</option>
+                <option>Bar</option>
+                <option>Radialbar</option>
+                <option>Bubble</option>
+            </select>
+        </div>
+        <div class="container_object object2">
+            <span class="Descripcion">Titulo</span>
+            <br>
+            <input type="text" placeholder=""  #title (change)="setTitle(title)" class="Select">
+        </div>
+        <div class="container_object object3">
+            <span class="Descripcion">Descripcion</span>
+            <br>
+            <input type="text" placeholder="" class="Select">
+        </div>
+        <div class="separatorLine line2"></div>
     </div>
 
 </div>

@@ -1,4 +1,4 @@
-<nav>
+<nav *ngIf="!isGraph">
     <div class="container_icono"><label class="label_options"><img class="icono" src="./assets/logo hd.png"></label>
     </div>
     <div class="option"><label class="label_options" (click)="ButtonInit()">Inicio</label></div>
@@ -34,6 +34,7 @@
         <app-grafica-radial-bar *ngFor="let id of backgroundColors let i = index"  [Id]="ids[i]" [NombreSensor]="nameSensors[i]"
         [backgroundColor]="backgroundColors[i]" [borderColor]="borderColor[i]" [typeGraphic]="typeGraphic[i]"
         [pointBackgroundColor]="pointBackgroundColor[i]" [hoverBorderColor]="hoverBorderColor[i]"
+        [OnlyShow]="true"
         [pointBorderColor]="pointBorderColor[i]" [Style]="'background-color: rgb(33, 32, 31);'" [SizePoint]="SizePoint[i]"></app-grafica-radial-bar>
         </div>
         <div class="margin"></div>

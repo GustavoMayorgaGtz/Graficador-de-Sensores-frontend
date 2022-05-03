@@ -7,12 +7,21 @@
     width: 100%;
     height: 100%;
     background-color: rgba(61, 58, 58, 0);
-    margin:10px;
-    
+    margin:10px;   
+}
+.container_grafica {
+    position: relative;
+    border-radius: 20px;
+    display: flex;
+    overflow: visible;
+    flex-wrap: nowrap;
+    width: 50%;
+    height: 50%;
+    margin:10px
 }
 
 .container_graph {
-    background-color: rgb(63, 63, 63, 0.5);
+    background-color: rgba(63, 63, 63, 0);
     display: flex;
     border-radius: 20px 20px 20px 20px;
     flex-direction: row;

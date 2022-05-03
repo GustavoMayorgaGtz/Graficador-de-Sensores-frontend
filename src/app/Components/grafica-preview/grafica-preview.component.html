@@ -1,8 +1,9 @@
-<div class="container_grafica"  style="width:100%; height: 100%;"  >
+<div class="container_grafica"  style="width:100%; " [style.height.px]="height"  >
     <!--  -->
-    <div class="container_graph" style="width:100%; height: 100%;">
+    <div class="container_graph" style="width:100%; " [style.height.px]="height">
   
         <canvas baseChart class="Canvas"
+        [style.height.px]="height"
             [datasets]="lineChartData" [options]="lineChartOptions" [labels]="barChartLabels" [legend]="lineChartLegend"
             [plugins]="lineChartPlugins" [type]="typeGraphic" draggable="true">
         </canvas>

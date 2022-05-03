@@ -30,12 +30,23 @@ export class CrearVariableComponent implements OnInit, OnDestroy {
     public nameSensors !: string[];
     public backgroundColors !: string[];
     public borderColor !: string[];
-    public typeGraphic !: string[];
+    public typeGraphic !: string;
     public pointBackgroundColor !: string[];
     public hoverBorderColor !: string[];
     public pointBorderColor !: string[];
     public SizePoint !: number[];
-  
+
+    /***Variables de control del menu de alertas y consultas  **********/
+    public isConsulta = true;
+    public isAlert = false;
+    /***Variables de control del select tipo de grafica ******* */
+    public isLine = true;
+    public isBar = false;
+    public isRadial = false;
+    public isBubble = false;  
+    /***Datos que se van a mostrar en la grafica******/
+    public titulo:string = "Prueba";
+    
     
   constructor(private getInformationSensors: GetInformationControllersService) {
     this.setStyle(); 
@@ -55,9 +66,7 @@ export class CrearVariableComponent implements OnInit, OnDestroy {
     ];
 
 
-    this.typeGraphic = [
-      'line'
-    ];
+    this.typeGraphic = 'line';
 
     this.pointBackgroundColor = [
       "rgb(32, 168, 16)"
@@ -76,8 +85,14 @@ export class CrearVariableComponent implements OnInit, OnDestroy {
     ]
   }
 
+  getWidth()
+  {
+    alert("change");
+  }
+
 
   ngOnInit(): void {
+
 
     this.GetAllConexion = this.getInformationSensors.getAllDataConexiones().subscribe((data) => {
       if (data) {
@@ -117,9 +132,9 @@ export class CrearVariableComponent implements OnInit, OnDestroy {
 
   putHeight() {
     
-    let resultado = (window.innerHeight+window.scrollY)-200;
+    let resultado = (window.innerHeight+window.scrollY)-60;
     if ( resultado < 900) {
-      this.heightMenuContainer = (window.innerHeight - 200) + window.scrollY;
+      this.heightMenuContainer = (window.innerHeight - 60) + window.scrollY;
     } else {
       this.heightMenuContainer = 900;
 
@@ -169,6 +184,87 @@ export class CrearVariableComponent implements OnInit, OnDestroy {
 
 
   }
+
+  return()
+  {
+       localStorage.setItem("position_nav","Inicio");
+       window.location.reload();
+       console.log("do!");
+  }
+
+  selectionData(value: any)
+  {
+    if(value)
+    {    
+      switch(value)
+      {
+        case 'Consultas':{
+          this.isConsulta = true;
+          this.isAlert = false;
+          break;
+        }
+        case 'Alertas':{
+          this.isConsulta = false;
+          this.isAlert = true;
+          break;
+        }
+      }
+    }else{
+       this.isConsulta = true;
+       this.isAlert = false;
+    }
+  }
+
+  seleccionTypeGrafica(value: any)
+  {
+    if(value)
+    {
+      console.log(value);
+      switch(value)
+      {
+        case 'Line': {
+          this.isLine = true;
+          this.isBar = false;
+          this.isRadial = false;
+          this.isBubble = false;
+          this.typeGraphic = "line";
+          break;
+        }
+        case 'Bar':{
+          this.isLine = false;
+          this.isBar = true;
+          this.isRadial = false;
+          this.isBubble = false;
+          this.typeGraphic = "bar";
+          break;
+        }
+        case 'Radialbar' :{
+          
+          this.isLine = false;
+          this.isBar = false;
+          this.isRadial = true;
+          this.isBubble = false;
+          this.typeGraphic = "radialBar";
+          break;
+        }
+        case 'Bubble':{
+          this.isLine = false;
+          this.isBar = false;
+          this.isRadial = false;
+          this.isBubble = false;
+          this.typeGraphic = "bubble";
+          break;
+        }
+      }
+
+    }
+  }
+
+  setTitle(value: any)
+  {
+     this.titulo = value;
+  }
+
 
 
 }

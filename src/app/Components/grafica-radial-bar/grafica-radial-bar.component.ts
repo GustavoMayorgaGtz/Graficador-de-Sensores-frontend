@@ -58,8 +58,10 @@ export class GraficaRadialBarComponent implements OnInit {
   @Input() pointBackgroundColor !: string;
   @Input() typeGraphic !: any;
   @Input() Style: any = "font-size: 12px;";
-  @Input() NombreSensor !: string;
+  @Input() NombreSensor : string = "";
   @Input() SizePoint: number = 1;
+  @Input() OnlyShow !: boolean;
+  @Input() widthContianer :number = 50;
   public elementos !: NodeListOf<HTMLInputElement>;
 
 
@@ -83,7 +85,7 @@ export class GraficaRadialBarComponent implements OnInit {
         startAngle: -90,
         endAngle: 90,
         track:{
-          background: "#ABB2B9",
+          background: "#ABB6B6",
           strokeWidth: "50%",
           margin: 0, // margin is in pixels
           dropShadow: {
@@ -136,14 +138,17 @@ export class GraficaRadialBarComponent implements OnInit {
   /*********************************************************************************************************************/
   constructor(private sensorInformation: GetInformationControllersService, private sanitizer: DomSanitizer) {
     this.Style = sanitizer.bypassSecurityTrustStyle(this.Style);
-
   }
   /*********************************************************************************************************************/
   ngOnInit(): void {
+    // setInterval(() => {
+    //  alert(this.widthContianer);
+    // }, 5000);
     /*  let notificacion =  new Notification("prueba");
       Notification.requestPermission().then(function(permission) { 
         console.log(permission);
       });*/
+
     this.chartRadialBar = {
       zoom: {
         enabled: true,
@@ -188,13 +193,15 @@ export class GraficaRadialBarComponent implements OnInit {
       this.isResizeHeight = false;
       this.isResizeWidth = false;
     }
-
-    this.setPositionInit();
-    this.setPosicionLienzo();
-    this.setPosicionLienzoVertical();
-
-    this.ObtenerDatos();
-    this.ObtenerDatosTiempoReal();
+    if(!this.OnlyShow)
+    {
+      this.setPositionInit();
+      this.setPosicionLienzo();
+      this.setPosicionLienzoVertical();
+      this.ObtenerDatos();
+      this.ObtenerDatosTiempoReal();
+    }
+    
 
     window.addEventListener('mousemove', (event) => {
       console.log(event.pageX + "||" + event.clientX);

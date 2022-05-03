@@ -85,6 +85,8 @@ export class GraficaPreviewComponent implements OnInit {
   @Input() SizePoint: number = 1;
   public elementos !: NodeListOf<HTMLInputElement>;
 
+  public height: number = 0;
+
 
   /********************************************************************************************* */
   constructor(private sensorInformation: GetInformationControllersService, private sanitizer: DomSanitizer) {
@@ -130,6 +132,7 @@ export class GraficaPreviewComponent implements OnInit {
         this.isResizeHeight = false;
         this.isResizeWidth = false;
       }
+      this.getHeight();
     }, 0);
 
     this.setPositionInit();
@@ -143,86 +146,11 @@ export class GraficaPreviewComponent implements OnInit {
     this.elementos[this.Id].style.top = this.CoordY + "px";
   }
 
- 
- /* setPosicionLienzo() {
-    window.addEventListener('mousemove', (event) => {
-      const browserWidth = window.innerWidth;
-      if (this.isResizeWidth) {
-        window.addEventListener('click', () => {
-          this.isResizeWidth = false;
-          this.isResizeHeight = false;
-        })
-     
-        if (this.widthLienzo < 300 && this.heightLienzo < 300) {
-          this.widthLienzo = 320;
-          this.heightLienzo = 320;
-          this.isResizeHeight = false;
-          this.isResizeWidth = false;
-        } else if (this.widthLienzo < 300) {
-          this.widthLienzo = 320;
-          this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
-          this.isResizeWidth = false;
-        } else {
-          if (this.CoordX == 2) {
-            this.widthLienzo = ((event.clientX - this.CoordX) + 100);
-            this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
-          } else {
-            this.widthLienzo = (event.clientX - this.CoordX);
-            this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
-          }
-        }
-        if (this.widthLienzo > browserWidth || (this.widthLienzo + this.CoordX) > browserWidth) {
-          this.widthLienzo = browserWidth;
-          this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
-        }
-      } else {
-        this.widthLienzo = this.widthLienzo;
-        this.widthLienzoPorcentaje = parseInt(((this.widthLienzo * 100) / this.browserWidth).toString());
-        this.heightLienzo = this.heightLienzo;
-      }
-    })
-  }
-  setPosicionLienzoVertical() {
-    window.addEventListener('mousemove', (event) => {
-      if (this.isResizeHeight) {
-        window.addEventListener('click', () => {
-          this.isResizeHeight = false;
-          this.isResizeWidth = false;
-        })
-        if (this.widthLienzo < 300 && this.heightLienzo < 300) {
-          this.isResizeHeight = false;
-          this.isResizeWidth = false;
-        } else if (this.heightLienzo < 300) {
-          this.heightLienzo = 320;
-          this.isResizeHeight = false;
-        } else {
-          this.heightLienzo = (event.pageY) - this.CoordY;
-        }
-      } else {
-        this.widthLienzo = this.widthLienzo;
-        this.heightLienzo = this.heightLienzo;
-      }
-    })
-  }
-*/
-  // getCoordenada(element: HTMLElement) {
-  //   var scroll = window.scrollY;
-  //   this.CoordY = (element.getBoundingClientRect().top + scroll);
-  //   this.CoordX = (element.getBoundingClientRect().x);
-  // }
-
-  // defineSizeOnY() {
-  //   this.isResizeHeight = true;
-  //   this.isResizeWidth = true;
-  // }
-
-  // defineSizeOffY() {
-  //   this.isResizeHeight = false;
-  //   this.isResizeWidth = false;
-  //   this.widthLienzo = this.widthLienzo;
-  //   this.heightLienzo = this.heightLienzo;
-  // }
-
+   getHeight()
+   {
+     let windowsHeight = window.innerHeight+ window.scrollY;
+     this.height = ((60 * windowsHeight)/100)-150;
+   }
   ngOnDestroy() {
     this.getDataSensor?.unsubscribe();
   }
