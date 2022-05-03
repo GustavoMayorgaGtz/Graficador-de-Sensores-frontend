@@ -84,13 +84,6 @@ export class CrearVariableComponent implements OnInit, OnDestroy {
       2
     ]
   }
-
-  getWidth()
-  {
-    alert("change");
-  }
-
-
   ngOnInit(): void {
 
 

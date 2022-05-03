@@ -28,11 +28,11 @@
  
     </div>
     <!-- ************************Solo mostrar una grafica falsa ********************* -->
-    <div  class="container_grafica2" #ContainerGrafica  #Grafica  *ngIf="OnlyShow" >
+    <div  class="container_grafica2" #ContainerGrafica  #Grafica  *ngIf="OnlyShow" style="display: flex; justify-content: center; align-items: center; width:100%;" [style.height.px]="height">
         <!--  -->
-            <div class="container_graph" width="100%" height="100%" style="display: flex; justify-content: center; align-items: center;">
+            <div class="container_graph" style="display: flex; justify-content: center; align-items: center; width:100%;" [style.height.px]="height">
                <apx-chart
-                [style.width.px]="widthLienzo" [style.height.px]="heightLienzo"
+                [style.width.px]="widthLienzo" [style.height.px]="height"
                 [series]="series2"
                 [chart]="chartRadialBar" 
                 [labels]="labels"

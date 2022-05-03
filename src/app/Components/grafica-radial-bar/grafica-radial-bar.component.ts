@@ -64,6 +64,9 @@ export class GraficaRadialBarComponent implements OnInit {
   @Input() widthContianer :number = 50;
   public elementos !: NodeListOf<HTMLInputElement>;
 
+  public height: number = 500;
+  public width: number = 400;
+
 
   
 /****************Radial Bar default options */
@@ -149,17 +152,37 @@ export class GraficaRadialBarComponent implements OnInit {
         console.log(permission);
       });*/
 
-    this.chartRadialBar = {
-      zoom: {
-        enabled: true,
-        autoScaleYaxis: false,
-        type: 'y'
-      },
-      width: "100%",
-      height: "130%",
-      type: "radialBar",
-      offsetY: 50
-      };
+      setInterval(() =>{
+        this.getHeight();
+      },0);
+
+      if(this.OnlyShow)
+      {
+        this.chartRadialBar = {
+          zoom: {
+            enabled: true,
+            autoScaleYaxis: false,
+            type: 'y'
+          },
+          width: "100%",
+          height: "130%",
+          type: "radialBar",
+          offsetY: -50
+          };
+      }else{
+        this.chartRadialBar = {
+          zoom: {
+            enabled: true,
+            autoScaleYaxis: false,
+            type: 'y'
+          },
+          width: "100%",
+          height: "130%",
+          type: "radialBar",
+          offsetY: 50
+          };
+      }
+  
     this.browserWidth = window.innerWidth;
     window.addEventListener('resize', () => {
       this.browserWidth = window.innerWidth;
@@ -198,6 +221,7 @@ export class GraficaRadialBarComponent implements OnInit {
       this.setPositionInit();
       this.setPosicionLienzo();
       this.setPosicionLienzoVertical();
+
       this.ObtenerDatos();
       this.ObtenerDatosTiempoReal();
     }
@@ -329,8 +353,14 @@ export class GraficaRadialBarComponent implements OnInit {
           this.configuracionRadialBar();
       }
     })
+  }
 
+  getSize()
+  {
 
+    let windowWidth = window.innerWidth;
+    let windowsHeight = window.innerHeight+ window.scrollY;
+    this.height = ((60 * windowsHeight)/100)-150;
   }
 
   configuracionRadialBar() {

@@ -9,7 +9,7 @@
         </div>
 
     </div>
-    <div class="container_view" (resize)="getWidth()" [style.height.px]="heightMenuContainer">
+    <div class="container_view" [style.height.px]="heightMenuContainer">
         <!-- *********** -->
         <div class="container_data">
             <div class="title"> Grafica</div>
@@ -22,8 +22,9 @@
                     [pointBorderColor]="pointBorderColor[0]" [Style]="'background-color: rgb(33, 32, 31);'"
                     [SizePoint]="SizePoint[0]"></app-grafica-preview>
 
-                <app-grafica-radial-bar  [Id]="0" [NombreSensor]="titulo" *ngIf="isRadial" [OnlyShow]="true" width="100%" hight="200px"
-             ></app-grafica-radial-bar>
+                <app-grafica-radial-bar  [Id]="0" [NombreSensor]="titulo" *ngIf="isRadial" [OnlyShow]="true">
+
+                </app-grafica-radial-bar>
             </div>
         </div>
 
