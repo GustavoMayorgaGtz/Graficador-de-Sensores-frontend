@@ -136,7 +136,6 @@ export class GraficaComponent implements OnInit, OnDestroy {
   }
   /********************************************************************************************* */
   ngOnInit(): void {
-
     this.browserWidth = window.innerWidth;
     window.addEventListener('resize', () => {
       this.browserWidth = window.innerWidth;
@@ -295,8 +294,18 @@ export class GraficaComponent implements OnInit, OnDestroy {
       }
     };
     this.getDataSensor = this.sensorInformation.getDataSensor({ "name": this.NombreSensor }).subscribe((getData) => {
-
-      this.dataSensor = getData.data.map(Number);
+      let preArraySize = getData.data.length;
+      let preString = "";
+      for(let i = 0; i < preArraySize; i++)
+      {
+          preString += preArraySize[i] +" ";
+      }
+      console.log("###############");
+    console.log(preString);
+      this.dataSensor = getData.data;
+      //console.log("****************");
+     // console.log(this.dataSensor);
+    
       this.Nombre = getData.nombre;
       if (this.dataSensor) {
         if (this.dataSensor.length > 30) {
@@ -308,7 +317,9 @@ export class GraficaComponent implements OnInit, OnDestroy {
               iterator++;
             }
           }
+          console.log("arrayLimitData")
              console.log(arrayLimitData);
+        
           this.lineChartData = [
             {
               data: arrayLimitData, label: getData.nombre,

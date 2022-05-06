@@ -11,23 +11,23 @@ export class GetInformationControllersService {
 
 getInformationSensor(body:any)
 {
-  return this.http.post("http://192.168.100.121:3000/Conexiones/getInforamation",body);
+  return this.http.post("https://graphservercontroler.herokuapp.com/Conexiones/getInforamation",body);
 }
 getData(){
   return this.http.get(
-     'http://localhost:3000/data',
+     'https://graphservercontroler.herokuapp.com/data',
      { responseType: 'json' }
   );
 }
 
 getDataSensor(body: any)
 {
-  return this.http.post<any>('http://192.168.100.129:3000/Conexiones/getConexiones',body);
+  return this.http.post<any>('https://graphservercontroler.herokuapp.com/Conexiones/getConexiones',body);
 }
 
 getAllDataConexiones()
 {
-  return this.http.post<any>('http://192.168.100.129:3000/Conexiones/getAllConexiones', null);
+  return this.http.post<any>('https://graphservercontroler.herokuapp.com/Conexiones/getAllConexiones', null);
 }
 
 }

@@ -153,7 +153,7 @@ export class GraficaRadialBarComponent implements OnInit {
       });*/
 
       setInterval(() =>{
-        this.getHeight();
+        //this.getHeight();
       },0);
 
       if(this.OnlyShow)
