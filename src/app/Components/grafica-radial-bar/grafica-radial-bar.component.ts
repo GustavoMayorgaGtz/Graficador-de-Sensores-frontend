@@ -1,14 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import {
-  ApexAxisChartSeries,
   ApexChart,
-  ApexXAxis,
-  ApexYAxis,
-  ApexTitleSubtitle,
-  ApexResponsive,
   ApexDataLabels,
-  ApexStroke,
   ApexPlotOptions,
   ApexFill,
   ApexNonAxisChartSeries
@@ -34,7 +28,7 @@ export class GraficaRadialBarComponent implements OnInit {
   /*********************************************************************************************************************/
   public data?: Object;
   public getDataSensor: Subscription | undefined;
-  public dataSensor?: number[];
+  public dataSensor: any;
   public widthLienzo!: number;
   public widthLienzoPorcentaje !: number;
   public heightLienzo!: number;
@@ -236,8 +230,8 @@ export class GraficaRadialBarComponent implements OnInit {
   }
   /*********************************************************************************************************************/
   setPositionInit() {
-    this.elementos = (document.querySelectorAll('.container_grafica') as NodeListOf<HTMLInputElement>);
-    this.elementos[this.Id].style.top = this.CoordY + "px";
+   /* this.elementos = (document.querySelectorAll('.container_grafica') as NodeListOf<HTMLInputElement>);
+    this.elementos[this.Id].style.top = this.CoordY + "px";*/
   }
   /*********************************************************************************************************************/
   setPosicionLienzo() {
@@ -347,7 +341,7 @@ export class GraficaRadialBarComponent implements OnInit {
   ObtenerDatos() {
     this.getDataSensor = this.sensorInformation.getDataSensor({ "name": this.NombreSensor }).subscribe((getData) => {
 
-      this.dataSensor = getData.data.map(Number);
+      this.dataSensor = getData;
       this.Nombre = getData.nombre;
       if (this.dataSensor) {
           this.configuracionRadialBar();
@@ -365,8 +359,10 @@ export class GraficaRadialBarComponent implements OnInit {
 
   configuracionRadialBar() {
     if (this.dataSensor) {
- 
-
+       /*****Obtener el ultimo valor **** */
+       let size = this.dataSensor.data.length;
+       let date = this.dataSensor.data[size - 1].data1;
+       this.series2 = [date];
     }
   }
 }

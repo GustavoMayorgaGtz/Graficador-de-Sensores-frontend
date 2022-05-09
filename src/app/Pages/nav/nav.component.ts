@@ -19,7 +19,8 @@ export class NavComponent implements OnInit {
   public nameSensors !: string[];
   public backgroundColors !: string[];
   public borderColor !: string[];
-  public typeGraphic !: string[];
+  public typeGraphic !: string[];  
+  public typeGraphic2 !: string[];
   public pointBackgroundColor !: string[];
   public hoverBorderColor !: string[];
   public pointBorderColor !: string[];
@@ -37,7 +38,7 @@ export class NavComponent implements OnInit {
 
     this.nameSensors = [
       "Sensor2",
-      "Sensor3",
+      "Sensor2",
       "Sensor2"
     ];
 
@@ -56,9 +57,15 @@ export class NavComponent implements OnInit {
 
     this.typeGraphic = [
       'line',
-      'line',
-      'line'
+      'bar',
+      'radar'
     ];
+    this.typeGraphic2 = [
+      'area',
+      'bar',
+      'radialBar'
+    ];
+
 
     this.pointBackgroundColor = [
       "rgb(32, 168, 16)",

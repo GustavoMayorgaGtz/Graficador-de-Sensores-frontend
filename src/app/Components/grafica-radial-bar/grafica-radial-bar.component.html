@@ -1,4 +1,4 @@
-<div  class="container_grafica" #ContainerGrafica  #Grafica  [style.width.px]="widthLienzo" [style.height.px]="heightLienzo" [style]="Style" cdkDrag *ngIf="!OnlyShow">
+<div  class="container_grafica" #ContainerGrafica  #Grafica  [style.width.px]="widthLienzo" [style.height.px]="heightLienzo" [style]="Style" cdkDrag *ngIf="OnlyShow === false">
     <!--  -->
         <div class="container_graph" [style.width.px]="widthLienzo" [style.height.px]="heightLienzo" (mousemove)="getCoordenada(Grafica)"  >
            <apx-chart
@@ -28,7 +28,7 @@
  
     </div>
     <!-- ************************Solo mostrar una grafica falsa ********************* -->
-    <div  class="container_grafica2" #ContainerGrafica  #Grafica  *ngIf="OnlyShow" style="display: flex; justify-content: center; align-items: center; width:100%;" [style.height.px]="height">
+    <div  class="container_grafica2" #ContainerGrafica  #Grafica  *ngIf="OnlyShow === true" style="display: flex; justify-content: center; align-items: center; width:100%;" [style.height.px]="height">
         <!--  -->
             <div class="container_graph" style="display: flex; justify-content: center; align-items: center; width:100%;" [style.height.px]="height">
                <apx-chart

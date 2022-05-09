@@ -108,7 +108,7 @@ export class GraficaApexComponent implements OnInit {
   /*********************************************************************************************************************/
   public data?: Object;
   public getDataSensor: Subscription | undefined;
-  public dataSensor?: number[];
+  public dataSensor:any;
   public widthLienzo!: number;
   public widthLienzoPorcentaje !: number;
   public heightLienzo!: number;
@@ -408,7 +408,7 @@ export class GraficaApexComponent implements OnInit {
   ObtenerDatos() {
     this.getDataSensor = this.sensorInformation.getDataSensor({ "name": this.NombreSensor }).subscribe((getData) => {
 
-      this.dataSensor = getData.data.map(Number);
+      this.dataSensor = getData.data;
       this.Nombre = getData.nombre;
       if (this.dataSensor) {
         if (this.typeGraphic == 'radialBar') {
@@ -438,17 +438,36 @@ export class GraficaApexComponent implements OnInit {
   configuracionLimitData() {
     if (this.dataSensor) {
       /*****Arreglo que se usa para cuando los elementos superan los 30 indices **********/
+      console.log("Funcion configuracionLimitData");
+     // console.log(" datos de dataSensor: "+ this.dataSensor.data);
+      /****Preparando la variable ******/
+      console.log(this.dataSensor);
+      let size = this.dataSensor.length;
+      let cadenaArray = "";
+      console.log("########Data sensor ########");
+      console.log(this.dataSensor);
+      for(let  i = 0; i < size; i++)
+      {
+        cadenaArray += this.dataSensor[i].data1 + " ";
+      }
+     let arrayS = cadenaArray.split(" ");
+     let array2S = arrayS.map(Number);
+     console.log("#########################");
+     console.log(array2S);
       let scrollData: number[] = [];
       let iterator: number = 0;
-      let sizeActualArray = this.dataSensor.length;
+      let sizeActualArray = array2S.length ;
       for (let index = 0; index < sizeActualArray; index++) {
         if (sizeActualArray - 29 <= index) {
-          scrollData[iterator] = this.dataSensor[index];
+          scrollData[iterator] = array2S[index];
           iterator++;
         }
       }
-      console.log("ScrollData" + scrollData);
 
+      console.log("*****************");
+      console.log(scrollData);
+
+      
       this.series = [{
         name: 'series-1',
         data: scrollData,
